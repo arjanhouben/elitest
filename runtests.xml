@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="128" failures="0" disabled="2" errors="0" timestamp="2020-09-21T10:56:31" time="0.012" name="AllTests">
+  <testsuite name="ActionPlayer_test" tests="5" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="compMinPwmForTactorToTurnOn" status="run" time="0" classname="ActionPlayer_test" />
+    <testcase name="FarDistance" status="run" time="0" classname="ActionPlayer_test" />
+    <testcase name="RightColIncreases" status="run" time="0" classname="ActionPlayer_test" />
+    <testcase name="compFreqMin" status="run" time="0" classname="ActionPlayer_test" />
+    <testcase name="compFreqMax" status="run" time="0" classname="ActionPlayer_test" />
+  </testsuite>
+  <testsuite name="BodyCoordinateServiceTest" tests="4" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="tactorListSize" status="run" time="0" classname="BodyCoordinateServiceTest" />
+    <testcase name="tactorHWListSize" status="run" time="0" classname="BodyCoordinateServiceTest" />
+    <testcase name="testUnknownHardwareAddress" status="run" time="0" classname="BodyCoordinateServiceTest" />
+    <testcase name="incorrectConfigAddress" status="run" time="0" classname="BodyCoordinateServiceTest" />
+  </testsuite>
+  <testsuite name="ButtonServiceTest" tests="6" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="onDown" status="run" time="0" classname="ButtonServiceTest" />
+    <testcase name="onUp" status="run" time="0" classname="ButtonServiceTest" />
+    <testcase name="LongPress" status="run" time="0" classname="ButtonServiceTest" />
+    <testcase name="Click" status="run" time="0" classname="ButtonServiceTest" />
+    <testcase name="Cancel" status="run" time="0" classname="ButtonServiceTest" />
+    <testcase name="DoubleClick" status="run" time="0" classname="ButtonServiceTest" />
+  </testsuite>
+  <testsuite name="Broker_test" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testRegisterServiceProvider" status="run" time="0" classname="Broker_test" />
+    <testcase name="testUnregisterServiceProvider" status="run" time="0" classname="Broker_test" />
+    <testcase name="testRegisterForEventAtUnavailableServiceProvider" status="run" time="0" classname="Broker_test" />
+    <testcase name="testRegisterForEvent" status="run" time="0" classname="Broker_test" />
+  </testsuite>
+  <testsuite name="LineBodyCoordinateServiceTest" tests="8" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testHWLocationsHeightInterpolate" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testHWLocationsHeightNearest" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testHWLocationsCircumferenceInterpolate" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testHWLocationsCircumferenceNearest" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testCircular" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testInvalidConfiguration" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testOutsideLineHeight" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+    <testcase name="testOutsideLineCircumference" status="run" time="0" classname="LineBodyCoordinateServiceTest" />
+  </testsuite>
+  <testsuite name="NavigationAlgorithm_test" tests="6" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_calc_distance" status="run" time="0" classname="NavigationAlgorithm_test" />
+    <testcase name="test_wp_orientation" status="run" time="0" classname="NavigationAlgorithm_test" />
+    <testcase name="test_fb_interval" status="run" time="0.001" classname="NavigationAlgorithm_test" />
+    <testcase name="test_nav_direction" status="run" time="0" classname="NavigationAlgorithm_test" />
+    <testcase name="test_dir_angle_range" status="run" time="0" classname="NavigationAlgorithm_test" />
+    <testcase name="test_tactor_coord_mapping" status="run" time="0" classname="NavigationAlgorithm_test" />
+  </testsuite>
+  <testsuite name="MathTest" tests="6" failures="0" disabled="0" errors="0" time="0.007">
+    <testcase name="LerpMethodSpecialCases" status="run" time="0" classname="MathTest" />
+    <testcase name="LerpMethodGeneralCases" status="run" time="0.003" classname="MathTest" />
+    <testcase name="ModMethodLowerBound" status="run" time="0" classname="MathTest" />
+    <testcase name="ModMethodUpperBound" status="run" time="0" classname="MathTest" />
+    <testcase name="WrapMethodFullTest" status="run" time="0.004" classname="MathTest" />
+    <testcase name="WrapMethodBasicTest" status="run" time="0" classname="MathTest" />
+  </testsuite>
+  <testsuite name="NumberUtilTest" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testUnsignedIntToSigned" status="run" time="0" classname="NumberUtilTest" />
+    <testcase name="testSignedIntToDouble" status="run" time="0" classname="NumberUtilTest" />
+    <testcase name="testSignedIntToDoubleWithScale" status="run" time="0" classname="NumberUtilTest" />
+  </testsuite>
+  <testsuite name="PatternQController_test" tests="15" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="testAddingPatternQ" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testIncrementingPatternQs" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testPopActionFromPatternQ" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testDetermineDispatchGroupSize" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testPopMultiActionFromSamePattern" status="run" time="0.001" classname="PatternQController_test" />
+    <testcase name="testCurrentPriorityUpdateNow" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testCurrentPriorityUpdateWhenever" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testCurrentPriorityUpdateWhatever" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testPatternDuration" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testDiscardAction" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testWaitAction" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testDelayAction" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="test2WaitAction" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testWaitNowAction" status="run" time="0" classname="PatternQController_test" />
+    <testcase name="testFinishedPattern" status="run" time="0" classname="PatternQController_test" />
+  </testsuite>
+  <testsuite name="PointBodyCoordinateServiceTest" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testAddDevice" status="run" time="0" classname="PointBodyCoordinateServiceTest" />
+    <testcase name="testGetHWLocations" status="run" time="0" classname="PointBodyCoordinateServiceTest" />
+  </testsuite>
+  <testsuite name="protocolBuffer_test" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_simple_encode_decode" status="run" time="0" classname="protocolBuffer_test" />
+  </testsuite>
+  <testsuite name="ProtocolHandlerTest" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testExampleMessage" status="run" time="0" classname="ProtocolHandlerTest" />
+  </testsuite>
+  <testsuite name="ProviderInformation_test" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testComparator" status="run" time="0" classname="ProviderInformation_test" />
+  </testsuite>
+  <testsuite name="ServiceProvider_test" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testRegisterForEvent" status="run" time="0" classname="ServiceProvider_test" />
+    <testcase name="testUnregisterForEvent" status="run" time="0" classname="ServiceProvider_test" />
+  </testsuite>
+  <testsuite name="ServiceSubscriber_test" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testRegisterForEvent" status="run" time="0" classname="ServiceSubscriber_test" />
+    <testcase name="testUnregisterForEvent" status="run" time="0" classname="ServiceSubscriber_test" />
+  </testsuite>
+  <testsuite name="TriangleBodyCoordinateServiceTest" tests="14" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="incorrectTriangle2" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="incorrectTriangle4" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="correctTriangleTest1" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="outsideOfTriangleTest" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="nonExistingBodyPartTest" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="nearestTactor" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="nonExistingBodyPartTestNearest" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="checkHWaddressesAndDistance" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="checkDistanceNearest" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="testCircularBegin" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="testCircularEnd" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="testBaryCentric1" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="testBaryCentric2" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+    <testcase name="testBaryCentric3" status="run" time="0" classname="TriangleBodyCoordinateServiceTest" />
+  </testsuite>
+  <testsuite name="WaypointLine_test" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_wayline_projection" status="run" time="0" classname="WaypointLine_test" />
+    <testcase name="test_wp_and_wl_angles" status="run" time="0" classname="WaypointLine_test" />
+    <testcase name="test_wp_wl_distance" status="run" time="0" classname="WaypointLine_test" />
+  </testsuite>
+  <testsuite name="Corner_test" tests="27" failures="0" disabled="1" errors="0" time="0.001">
+    <testcase name="testDotProduct" status="run" time="0" classname="Corner_test" />
+    <testcase name="testLengthZero" status="run" time="0" classname="Corner_test" />
+    <testcase name="testLengthOne" status="run" time="0" classname="Corner_test" />
+    <testcase name="testLengthNegative" status="run" time="0" classname="Corner_test" />
+    <testcase name="testNorm" status="run" time="0" classname="Corner_test" />
+    <testcase name="testNormZero" status="run" time="0" classname="Corner_test" />
+    <testcase name="testNormNegative" status="run" time="0" classname="Corner_test" />
+    <testcase name="testASINlessthanminus1" status="run" time="0" classname="Corner_test" />
+    <testcase name="testASINminus1" status="run" time="0" classname="Corner_test" />
+    <testcase name="testASINmorethan1" status="run" time="0" classname="Corner_test" />
+    <testcase name="testASINone" status="run" time="0" classname="Corner_test" />
+    <testcase name="testASINzero" status="run" time="0" classname="Corner_test" />
+    <testcase name="testSetNumberOfTactorsToTen" status="run" time="0" classname="Corner_test" />
+    <testcase name="testSetNumberOfTactorsToOne" status="run" time="0" classname="Corner_test" />
+    <testcase name="testSetNumberOfTactorsToEight" status="run" time="0" classname="Corner_test" />
+    <testcase name="testSetNumberOfTactorsToSeven" status="run" time="0" classname="Corner_test" />
+    <testcase name="testSetNumberOfTactorsToTwelve" status="run" time="0" classname="Corner_test" />
+    <testcase name="testSetNumberOfTactorsToThirteen" status="run" time="0" classname="Corner_test" />
+    <testcase name="testInitSetsXYZ" status="run" time="0" classname="Corner_test" />
+    <testcase name="testCalibrateEnablesValidCallback" status="run" time="0" classname="Corner_test" />
+    <testcase name="testNoCalibrateDisablesValidCallback" status="run" time="0" classname="Corner_test" />
+    <testcase name="testInvalidCallbackIsIgnored" status="run" time="0" classname="Corner_test" />
+    <testcase name="testInitCorrectsTooMuchTactors" status="run" time="0" classname="Corner_test" />
+    <testcase name="DISABLED_testInitCorrectsTooLittleTactors" status="notrun" time="0" classname="Corner_test" />
+    <testcase name="testPatientVectorStraightUp" status="run" time="0" classname="Corner_test" />
+    <testcase name="testPatientVector90DegreesX" status="run" time="0" classname="Corner_test" />
+    <testcase name="testPatientVector90DegreesY" status="run" time="0" classname="Corner_test" />
+  </testsuite>
+  <testsuite name="CornerCalibratedStraightUp" tests="9" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="testNoMovementGivesZeroCornerAndTilt" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="test45DegreesTiltRight" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="test45DegreesTiltLeft" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="test45DegreesTiltForward" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="test45DegreesTiltBackward" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="testXaxisAligned" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="testZaxisInverted" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="testYaxisInverted" status="run" time="0" classname="CornerCalibratedStraightUp" />
+    <testcase name="testXaxisInverted" status="run" time="0" classname="CornerCalibratedStraightUp" />
+  </testsuite>
+  <testsuite name="CornerCalibrated45DegreesForward" tests="9" failures="0" disabled="1" errors="0" time="0">
+    <testcase name="testNoTilt" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test45DegreesTiltForward" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test45DegreesTiltBackward" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test45DegreesTiltLeft" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test45DegreesTiltRight" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="DISABLED_test90DegreesTiltForward" status="notrun" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test90DegreesTiltRight" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test90DegreesTiltBackwards" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+    <testcase name="test90DegreesTiltLeft" status="run" time="0" classname="CornerCalibrated45DegreesForward" />
+  </testsuite>
+</testsuites>

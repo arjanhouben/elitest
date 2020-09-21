@@ -1,0 +1,2270 @@
+ > git rev-parse --is-inside-work-tree # timeout=10
+Setting origin to ssh://git@git.elitac.nl/~/projects/TacOS.git/
+ > git config remote.origin.url ssh://git@git.elitac.nl/~/projects/TacOS.git/ # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git config --get remote.origin.url # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress -- origin +refs/heads/*:refs/remotes/origin/*
+Seen branch in repository origin/BABE-493-Flash_and_test_tactors
+Seen branch in repository origin/BABE-636_Will_the_belt_work_for_2_years
+Seen branch in repository origin/FileServerOff_DRV2624
+Seen branch in repository origin/SimonDogger_ELI964_kickoff
+Seen branch in repository origin/development
+Seen branch in repository origin/feature/BABE-353-emc-test-firmware
+Seen branch in repository origin/feature/BABE-466-emc-firmware-for-charging
+Seen branch in repository origin/feature/BABE-506-flash-firmware-for-cm
+Seen branch in repository origin/feature/BABE-508-test-and-flash-babe-cm
+Seen branch in repository origin/feature/MOT-1545-non-functional-testing
+Seen branch in repository origin/master
+Seen branch in repository origin/release/babe-v2
+Seen branch in repository origin/release/codemo/v1.0
+Seen branch in repository origin/temp/erroneous-address-match
+Seen branch in repository origin/tmp/i2c-bus-bug-reproduction
+Seen 15 remote branches
+Obtained TacOS/jenkins/jenkinsFile from ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/TacOS-multibranch2_development
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+using credential 7cd7f39e-5b06-4c56-a6f7-b41b594677c9
+Wiping out workspace first.
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository ssh://git@git.elitac.nl/~/projects/TacOS.git/
+ > git init /var/lib/jenkins/workspace/TacOS-multibranch2_development # timeout=10
+Fetching upstream changes from ssh://git@git.elitac.nl/~/projects/TacOS.git/
+ > git --version # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --no-tags --progress -- ssh://git@git.elitac.nl/~/projects/TacOS.git/ +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url ssh://git@git.elitac.nl/~/projects/TacOS.git/ # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url ssh://git@git.elitac.nl/~/projects/TacOS.git/ # timeout=10
+Fetching without tags
+Fetching upstream changes from ssh://git@git.elitac.nl/~/projects/TacOS.git/
+using GIT_SSH to set credentials 
+ > git fetch --no-tags --progress -- ssh://git@git.elitac.nl/~/projects/TacOS.git/ +refs/heads/*:refs/remotes/origin/*
+Checking out Revision ba57544240c7d2d6bebdfb4b1facb45ae6acdd51 (development)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+Commit message: "Set Clamp voltage a little bit lower so stay under the 3.0V."
+ > git rev-list --no-walk ba57544240c7d2d6bebdfb4b1facb45ae6acdd51 # timeout=10
+ > git remote # timeout=10
+ > git submodule init # timeout=10
+ > git submodule sync # timeout=10
+ > git config --get remote.origin.url # timeout=10
+ > git submodule init # timeout=10
+ > git config -f .gitmodules --get-regexp ^submodule\.(.+)\.url # timeout=10
+ > git config --get submodule.proto_files.url # timeout=10
+ > git remote # timeout=10
+ > git config --get remote.origin.url # timeout=10
+ > git config -f .gitmodules --get submodule.proto_files.path # timeout=10
+using GIT_SSH to set credentials 
+ > git submodule update --init --recursive proto_files # timeout=1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Agent Setup)
+[Pipeline] isUnix
+[Pipeline] readFile
+[Pipeline] sh
++ docker build -t 172386ad793176506b883481f1bdae4248c44294 -f TacOS/docker/Dockerfile .
+Sending build context to Docker daemon  364.9MB
+
+Step 1/17 : FROM ubuntu:19.10
+ ---> 2f6c85efea61
+Step 2/17 : RUN apt-get update
+ ---> Using cache
+ ---> 8c637c9ca710
+Step 3/17 : RUN apt-get install -y python2.7 python-pip
+ ---> Using cache
+ ---> 9198ff2070af
+Step 4/17 : RUN pip install protobuf==3.4.0
+ ---> Using cache
+ ---> 8d07eb92c2ea
+Step 5/17 : RUN apt-get install -y cmake
+ ---> Using cache
+ ---> 58aa4c78f2b8
+Step 6/17 : RUN apt-get install -y git curl unzip
+ ---> Using cache
+ ---> a62200eeccfb
+Step 7/17 : RUN curl -OL https://github.com/google/protobuf/releases/download/v3.4.0/protoc-3.4.0-linux-x86_64.zip
+ ---> Using cache
+ ---> 324d1e18b7ec
+Step 8/17 : RUN unzip protoc-3.4.0-linux-x86_64.zip -d protoc3
+ ---> Using cache
+ ---> dcbecbd23269
+Step 9/17 : RUN chmod a+rx protoc3/bin/*
+ ---> Using cache
+ ---> 383e79a03e5c
+Step 10/17 : RUN mv protoc3/bin/* /usr/local/bin/
+ ---> Using cache
+ ---> 440bbc366bcf
+Step 11/17 : RUN mv protoc3/include/* /usr/local/include/
+ ---> Using cache
+ ---> 56d8af5e2f5f
+Step 12/17 : RUN apt-get install -y gcovr
+ ---> Using cache
+ ---> 76ae5558fb1f
+Step 13/17 : RUN apt-get install -y gcc-arm-none-eabi
+ ---> Using cache
+ ---> 5db0838e78b0
+Step 14/17 : RUN apt-get install -y srecord
+ ---> Using cache
+ ---> 933e27be1803
+Step 15/17 : RUN pip install lizard
+ ---> Using cache
+ ---> 7f6c374bbc11
+Step 16/17 : RUN apt-get install -y clang
+ ---> Using cache
+ ---> d96b34c9a303
+Step 17/17 : WORKDIR /TacOS/TacOS
+ ---> Using cache
+ ---> fc6c42175257
+Successfully built fc6c42175257
+Successfully tagged 172386ad793176506b883481f1bdae4248c44294:latest
+[Pipeline] dockerFingerprintFrom
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] sh
++ docker inspect -f . 172386ad793176506b883481f1bdae4248c44294
+.
+[Pipeline] withDockerContainer
+Jenkins does not seem to be running inside a container
+$ docker run -t -d -u 110:115 -w /var/lib/jenkins/workspace/TacOS-multibranch2_development -v /var/lib/jenkins/workspace/TacOS-multibranch2_development:/var/lib/jenkins/workspace/TacOS-multibranch2_development:rw,z -v /var/lib/jenkins/workspace/TacOS-multibranch2_development@tmp:/var/lib/jenkins/workspace/TacOS-multibranch2_development@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** 172386ad793176506b883481f1bdae4248c44294 cat
+$ docker top 75b7b5fefb6729431c45ebf230ac325ba06e6bb5944da55d4a1e625d3f1009d5 -eo pid,comm
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Cyclomatic Complexity Analysis)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ lizard -w TacOS/src
+TacOS/src/motosense_lib/services/bodycoordinate/TriangleBodyCoordinateService.cpp:346: warning: Elitac::TriangleBodyCoordinateServiceClass::impl::inTriangle has 92 NLOC, 16 CCN, 1043 token, 3 PARAM, 145 length
+TacOS/src/motosense_lib/services/Btle/GattClients/HeartRateGattClient.cpp:34: warning: Elitac::HeartRateGattClientClass::handleNotification has 70 NLOC, 17 CCN, 486 token, 2 PARAM, 91 length
+TacOS/src/motosense_lib/services/Btle/BtleManager.cpp:221: warning: Elitac::BtleManagerClass::impl::processEvent has 91 NLOC, 31 CCN, 565 token, 1 PARAM, 102 length
+TacOS/src/motosense_lib/services/button/ButtonService.cpp:157: warning: Elitac::ButtonServiceClass::Button::HandleAction has 68 NLOC, 18 CCN, 336 token, 1 PARAM, 94 length
+TacOS/src/motosense_lib/services/button/ButtonService.cpp:257: warning: Elitac::ButtonServiceClass::ButtonEventHandler::WaitForEvent has 45 NLOC, 16 CCN, 180 token, 1 PARAM, 48 length
+TacOS/src/motosense_lib/protocol/NanoPBExtension/ProtoMapping.cpp:120: warning: Elitac::GetPBStructAsVoid has 67 NLOC, 22 CCN, 568 token, 1 PARAM, 88 length
+TacOS/src/motosense_lib/protocol/NanoPBExtension/ProtoMapping.cpp:209: warning: Elitac::GetMessageType has 66 NLOC, 22 CCN, 458 token, 1 PARAM, 86 length
+TacOS/src/motosense_lib/protocol/ProtocolReader.cpp:116: warning: Elitac::ProtocolReaderClass::readMessage has 38 NLOC, 16 CCN, 349 token, 2 PARAM, 41 length
+TacOS/src/motosense_lib/devices/BlueToothModule.cpp:50: warning: Elitac::BlueToothModuleClass::BlueToothModuleClass has 145 NLOC, 18 CCN, 931 token, 0 PARAM, 198 length
+TacOS/src/motosense_lib/devices/SPIDevice.cpp:368: warning: Elitac::SPIDeviceClass::CanTransitionTo has 39 NLOC, 26 CCN, 279 token, 2 PARAM, 77 length
+TacOS/src/motosense_lib/core/bodycoordinate/BodyCoordinateLocation.cpp:83: warning: Elitac::BodyCoordinateLocationClass::bodyPartFromPB has 35 NLOC, 16 CCN, 142 token, 1 PARAM, 35 length
+TacOS/src/platform/devices/NinaB1.cpp:276: warning: Elitac::NinaB1Class::impl::parseEvent has 73 NLOC, 21 CCN, 576 token, 1 PARAM, 86 length
+TacOS/src/platform/core/ServiceManager.cpp:185: warning: Elitac::ServiceManager::createSubscriptions has 73 NLOC, 21 CCN, 392 token, 0 PARAM, 100 length
++ true
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] recordIssues
+[Cyclomatic complexity] Sleeping for 5 seconds due to JENKINS-32191...
+[Cyclomatic complexity] Parsing console log (workspace: '/var/lib/jenkins/workspace/TacOS-multibranch2_development')
+[Cyclomatic complexity] Post processing issues on 'Master' with source code encoding 'ISO-8859-1'
+[Cyclomatic complexity] Resolving absolute file names for all issues in source directories '[/var/lib/jenkins/workspace/TacOS-multibranch2_development]'
+[Cyclomatic complexity] -> 11 resolved, 0 unresolved, 0 already resolved
+[Cyclomatic complexity] Resolving module names from module definitions (build.xml, pom.xml, or Manifest.mf files)
+[Cyclomatic complexity] -> resolved module names for 13 issues
+[Cyclomatic complexity] Resolving package names (or namespaces) by parsing the affected files
+[Cyclomatic complexity] -> resolved package names of 11 affected files
+[Cyclomatic complexity] No filter has been set, publishing all 13 issues
+[Cyclomatic complexity] Creating fingerprints for all affected code blocks to track issues over different builds
+[Cyclomatic complexity] -> created fingerprints for 13 issues
+[Cyclomatic complexity] Copying affected files to Jenkins' build folder '/var/lib/jenkins/jobs/TacOS-multibranch2/branches/development/builds/123/files-with-issues'
+[Cyclomatic complexity] -> 11 copied, 0 not in workspace, 0 not-found, 0 with I/O error
+[Cyclomatic complexity] Attaching ResultAction with ID 'clang' to run 'TacOS-multibranch2/development #123'.
+[Cyclomatic complexity] Using reference build 'TacOS-multibranch2/development #122' to compute new, fixed, and outstanding issues
+[Cyclomatic complexity] Issues delta (vs. reference build): outstanding: 13, new: 0, fixed: 0
+[Cyclomatic complexity] No quality gates have been set - skipping
+[Cyclomatic complexity] Health report is disabled - skipping
+[Cyclomatic complexity] Created analysis result for 13 issues (found 0 new issues, fixed 0 issues)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Static Code Analysis)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make balancebelt
+****** Project balancebelt *******
+cmake -E remove_directory ../build/balancebelt
+cmake -E make_directory ../build/balancebelt
+cd ../build/balancebelt && cmake -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DGITHASH=ba5754424 -DPROJECT=balancebelt "/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/"
+-- Building files for board type BABE_1812 from Elitac
+-- Processor name is MK24F12 with CPU type CPU_MK24FN1M0VDC12 and linker prefix MK24FN1M0xxx12
+-- Building Git hash: ba5754424
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Eclipse version is set to 4.4.2. Adjust CMAKE_ECLIPSE_VERSION if this is wrong.
+-- Toolchain prefix: /usr/lib/arm-none-eabi
+-- Found Python2: /usr/bin/python2.7 (found version "2.7.17") found components:  Interpreter 
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Including nanopb from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- nanoPB; current CMAKE_CURRENT_LIST_DIR :: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- Including motosense_lib from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib
+-- Including board files from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/Boards
+-- Including FreeRTOS from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/RTOS
+-- Including systemview from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/systemview
+-- Including USB Stack from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/usb_device_hid_generic/freertos
+-- Including SerialFlash from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/SerialFlash-master
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/balancebelt
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/balancebelt
+[Pipeline] {
+[Pipeline] sh
++ make style
+Scanning dependencies of target style
+[100%] Checking code style.
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/AbstractApp.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/AppManager.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/DiagnosticsApp.cpp:39:  You don't need a ; after a }  [readability/braces] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/DiagnosticsApp.cpp:111:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/DiagnosticsApp.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/SmartShirtApp.cpp:49:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/SmartShirtApp.cpp:50:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/apps/SmartShirtApp.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/broker/Broker.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/configurations/DeviceConfigurator.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/configurations/GlobalHardwareConfiguration.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/configurations/examplePriorityConfiguration.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/configurations/hardwareConfiguration.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/BlueToothManager.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/ProviderInformation.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/bodycoordinate/BodyCoordinateLocation.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/bodycoordinate/Constellation.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/littleEndian.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/numberUtil.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/pattern/ModifiedPattern.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/pattern/Pattern.cpp:23:  You don't need a ; after a }  [readability/braces] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/pattern/Pattern.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/pattern/PatternAction.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/core/pattern/PatternBuilder.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/AHRS.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/BQ27426BatMon.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/BatteryMonitor.cpp:43:  Do not use variable-length arrays.  Use an appropriately named ('k' followed by CamelCase) compile-time constant for the size.  [runtime/arrays] [1]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/BatteryMonitor.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/BlueToothDevice.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/BlueToothModule.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/DRV2604Tactor.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/DRV2624Tactor.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/EliTactor.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/Led.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/M0OnOffCont.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:107:  Use int16/int64/etc, rather than the C type short  [runtime/int] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:125:  Use int16/int64/etc, rather than the C type short  [runtime/int] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:126:  Use int16/int64/etc, rather than the C type short  [runtime/int] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:127:  Use int16/int64/etc, rather than the C type short  [runtime/int] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:134:  Using C-style cast.  Use static_cast<float>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:135:  Using C-style cast.  Use static_cast<float>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp:136:  Using C-style cast.  Use static_cast<float>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/MMA8452Q.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/SPIDevice.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/STM6601OnOffCont.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/Tactor.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/devices/spi/StretchSense.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/ActionMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/CompassMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/IMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/LocationMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/PatternMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/ProtocolMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/SensorMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/messages/SystemMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/navigation/NavigationAlgorithm.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/GenericProtoMessage.cpp:145:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/GenericProtoMessage.cpp:150:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/GenericProtoMessage.cpp:165:  Using C-style cast.  Use reinterpret_cast<pb_callback_t *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/GenericProtoMessage.cpp:172:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/GenericProtoMessage.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:24:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:35:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:44:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:53:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:62:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:191:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:243:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:299:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:314:  Using C-style cast.  Use reinterpret_cast<uint8_t *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:340:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:355:  Using C-style cast.  Use reinterpret_cast<uint8_t *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:376:  Using C-style cast.  Use reinterpret_cast<uint8_t *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp:392:  Is this a non-const reference? If so, make const or use a pointer: pb_callback_t &cb  [runtime/references] [2]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/FieldCallbacks.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/ProtoMapping.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/NanoPBExtension/Streams.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/ProtoMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/ProtoVersionManagement.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/ProtocolHandler.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/ProtocolHeader.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/ProtocolReader.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/protocol/ProtocolWriter.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/BatteryService.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/BtleManager.cpp:390:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/BtleManager.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/ByteArray.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/Gatt.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/CycleCadenceGattClient.cpp:94:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/CycleCadenceGattClient.cpp:97:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/CycleCadenceGattClient.cpp:101:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/CycleCadenceGattClient.cpp:104:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/CycleCadenceGattClient.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/HeartRateGattClient.cpp:108:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/GattClients/HeartRateGattClient.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/Btle/HIDService.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/PowerManagement/PowerManagement.cpp:24:  Found C system header after other header. Should be: PowerManagement.h, c system, c++ system, other.  [build/include_order] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/PowerManagement/PowerManagement.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/accelerometer/AccelerometerService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/actionplayer/ActionPlayerService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/actionplayer/compfreq.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/ahrs/AHRSService.cpp:185:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/ahrs/AHRSService.cpp:443:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/ahrs/AHRSService.cpp:443:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/ahrs/AHRSService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/bodycoordinate/AbstractBodyCoordinateService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/bodycoordinate/LineBodyCoordinateService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/bodycoordinate/PointBodyCoordinateService.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/bodycoordinate/TriangleBodyCoordinateService.cpp:72:  Is this a non-const reference? If so, make const or use a pointer: int& distanceSq  [runtime/references] [2]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/bodycoordinate/TriangleBodyCoordinateService.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/button/ButtonService.cpp:134:  Closing ) should be moved to the previous line  [whitespace/parens] [2]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/button/ButtonService.cpp:143:  Using C-style cast.  Use reinterpret_cast<void*>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/button/ButtonService.cpp:145:  Closing ) should be moved to the previous line  [whitespace/parens] [2]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/button/ButtonService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/core/AbstractServiceProvider.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/core/AbstractServiceSubscriber.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/core/BaseConnector.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/core/InitializationMarshall.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/fileManager/ArrayFile.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/fileManager/FileManager.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/fileManager/FileService.cpp:252:  Extra space before [  [whitespace/braces] [5]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/fileManager/FileService.cpp:303:  Missing spaces around &&  [whitespace/operators] [3]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/fileManager/FileService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/fileManager/GuardedFile.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/location/LocationService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/location/PositionVelocityTimeData.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/location/mot714mgaofflineubx_csv.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/patternplayer/PatternQ.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/patternplayer/PatternQController.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/protocol/ProtocolService.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/system/SystemService.cpp:56:  Redundant blank line at the start of a code block should be deleted.  [whitespace/blank_line] [2]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/services/system/SystemService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/tasks/AbstractRTOSTask.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/tasks/IntervalUpdateTask.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/tasks/MonitorQTask.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/tasks/PatternTimerTask.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/utils/Coordinates.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/utils/HalfOpenInterval.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/utils/Vector2.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib/utils/Vector3.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/alloc.cpp:39:  Using C-style cast.  Use reinterpret_cast<uint8_t *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/alloc.cpp:41:  Using C-style cast.  Use reinterpret_cast<uint8_t *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/alloc.cpp:66:  Using C-style cast.  Use reinterpret_cast<void *>(...) instead  [readability/casting] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/alloc.cpp:70:  Using C-style cast.  Use reinterpret_cast<void *>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/alloc.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/apiapp/ApiApp.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:14:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:15:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:16:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:17:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:18:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:19:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp:22:  Found C system header after C++ system header. Should be: BaBeApp.h, c system, c++ system, other.  [build/include_order] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/balancebelt/BaBeApp.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/homing/HomingApp.cpp:45:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/homing/HomingApp.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/navigation/NavigationApp.cpp:580:  Redundant blank line at the end of a code block should be deleted.  [whitespace/blank_line] [3]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/navigation/NavigationApp.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/navigation/NavigationSettingsSubscriber.cpp:111:  Using C-style cast.  Use static_cast<int>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/navigation/NavigationSettingsSubscriber.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/navigation/WaypointFixTask.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/navigation/WaypointPatternTiming.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/smartshirt/SMAApp.cpp:17:  Found C system header after C++ system header. Should be: SMAApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/smartshirt/SMAApp.cpp:18:  Found C system header after C++ system header. Should be: SMAApp.h, c system, c++ system, other.  [build/include_order] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/smartshirt/SMAApp.cpp:20:  Found C system header after C++ system header. Should be: SMAApp.h, c system, c++ system, other.  [build/include_order] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/smartshirt/SMAApp.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/tests/EliTactorTestApp.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/tests/HardwareDiagApp.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/apps/tests/SpiFlashMemTestApp.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/core/ServiceManager.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/core/hardware_init.cpp:11:  Include the directory when naming .h files  [build/include] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/core/hardware_init.cpp:12:  Include the directory when naming .h files  [build/include] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/core/hardware_init.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/GPIOLed.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:81:  For a static/global string constant, use a C style string instead: "static const char urcStartup[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:82:  For a static/global string constant, use a C style string instead: "static const char urcConnected[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:83:  For a static/global string constant, use a C style string instead: "static const char urcDisconnected[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:84:  For a static/global string constant, use a C style string instead: "static const char urcRequestToRead[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:85:  For a static/global string constant, use a C style string instead: "static const char urcRequestToWrite[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:86:  For a static/global string constant, use a C style string instead: "static const char urcIndicationConfirmation[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:87:  For a static/global string constant, use a C style string instead: "static const char urcNotification[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:88:  For a static/global string constant, use a C style string instead: "static const char urcIndication[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:89:  For a static/global string constant, use a C style string instead: "static const char urcBond[]".  [runtime/string] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp:408:  Using C-style cast.  Use static_cast<char>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/devices/NinaB1.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/drivers/I2CDevice.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/drivers/uart.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/drivers/usb/USBStack.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/main.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/os/Semaphore.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/os/setup.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/osa_timing.cpp:11:  Include the directory when naming .h files  [build/include] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/osa_timing.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/BlueTooth/BlueToothService.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/uartdebug/DebugConsole.cpp:14:  Include the directory when naming .h files  [build/include] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/uartdebug/DebugConsole.cpp:15:  Include the directory when naming .h files  [build/include] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/uartdebug/DebugConsole.cpp:80:  Using C-style cast.  Use static_cast<char>(...) instead  [readability/casting] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/uartdebug/DebugConsole.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/usb/USBService.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/services/usb/USBService_c_connector.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/tasks/FeedWatchdogTask.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/tools/timedebug.cpp:16:  Include the directory when naming .h files  [build/include] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/platform/tools/timedebug.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/event_groups.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/osa_timing.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/queue.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/semphr.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/task.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/timers.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/RTOSMock/trace.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/misc/ExampleMessage.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/misc/TactorMock.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/AbstractRTOSTask_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ActionPlayer_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/BodyCoordinate_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/Broker_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ButtonService_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/Corner_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/DataProcessor_test.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/GuardedFile_test.cpp:32:  Do not use variable-length arrays.  Use an appropriately named ('k' followed by CamelCase) compile-time constant for the size.  [runtime/arrays] [1]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/GuardedFile_test.cpp:35:  Do not use variable-length arrays.  Use an appropriately named ('k' followed by CamelCase) compile-time constant for the size.  [runtime/arrays] [1]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/GuardedFile_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/LineBodyCoordinateService_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/Math_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/NavigationAlgorithm_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/PatternQController_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/PointBodyCoordinateService_test.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolHandler_test.cpp:39:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolHandler_test.cpp:69:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolHandler_test.cpp:73:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolHandler_test.cpp:77:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolHandler_test.cpp
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolReader_test.cpp:40:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolReader_test.cpp:70:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolReader_test.cpp:74:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolReader_test.cpp:78:  "virtual" is redundant since function is already declared as "override"  [readability/inheritance] [4]
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolReader_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProtocolWriterReader_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ProviderInformation_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ServiceProvider_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/ServiceSubscriber_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/TriangleBodyCoordinateService_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/WaypointLine_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/numberUtil_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/protocolBuffer_test.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platformMock/I2CDeviceMock.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platformMock/Semaphore.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platformMock/ServiceProvider.cpp
+Done processing /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platformMock/ServiceSubscriber.cpp
+Total errors found: 91
+make[3]: *** [CMakeFiles/style.dir/build.make:215: CMakeFiles/style] Error 1
+make[2]: *** [CMakeFiles/Makefile2:73: CMakeFiles/style.dir/all] Error 2
+make[1]: *** [CMakeFiles/Makefile2:80: CMakeFiles/style.dir/rule] Error 2
+make: *** [Makefile:118: style] Error 2
++ true
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] recordIssues
+[CppLint] Sleeping for 5 seconds due to JENKINS-32191...
+[CppLint] Parsing console log (workspace: '/var/lib/jenkins/workspace/TacOS-multibranch2_development')
+[CppLint] Post processing issues on 'Master' with source code encoding 'ISO-8859-1'
+[CppLint] Resolving absolute file names for all issues in source directories '[/var/lib/jenkins/workspace/TacOS-multibranch2_development]'
+[CppLint] -> 0 resolved, 0 unresolved, 30 already resolved
+[CppLint] Resolving module names from module definitions (build.xml, pom.xml, or Manifest.mf files)
+[CppLint] -> resolved module names for 91 issues
+[CppLint] Resolving package names (or namespaces) by parsing the affected files
+[CppLint] -> resolved package names of 30 affected files
+[CppLint] No filter has been set, publishing all 91 issues
+[CppLint] Creating fingerprints for all affected code blocks to track issues over different builds
+[CppLint] -> created fingerprints for 91 issues
+[CppLint] Copying affected files to Jenkins' build folder '/var/lib/jenkins/jobs/TacOS-multibranch2/branches/development/builds/123/files-with-issues'
+[CppLint] -> 30 copied, 0 not in workspace, 0 not-found, 0 with I/O error
+[CppLint] Attaching ResultAction with ID 'cpplint' to run 'TacOS-multibranch2/development #123'.
+[CppLint] Using reference build 'TacOS-multibranch2/development #122' to compute new, fixed, and outstanding issues
+[CppLint] Issues delta (vs. reference build): outstanding: 91, new: 0, fixed: 0
+[CppLint] No quality gates have been set - skipping
+[CppLint] Health report is disabled - skipping
+[CppLint] Created analysis result for 91 issues (found 0 new issues, fixed 0 issues)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ echo -n sciencesuit,
+[Pipeline] sh
++ echo -n balancebelt,
+[Pipeline] sh
++ echo -n local,
+[Pipeline] sh
++ echo
+[Pipeline] echo
+Running 123 CC null CXX null
+[Pipeline] echo
+Path /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+[Pipeline] sh
++ printenv
+GIT_PREVIOUS_SUCCESSFUL_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+HOSTNAME=75b7b5fefb67
+RUN_CHANGES_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/display/redirect?page=changes
+GIT_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+NODE_LABELS=docker master
+HUDSON_URL=https://jenkins.elitac.nl/
+HOME=/
+BUILD_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/
+JENKINS_SERVER_COOKIE=durable-bde5c232dca025e06ab67e2b6f2d508c
+WORKSPACE=/var/lib/jenkins/workspace/TacOS-multibranch2_development
+NODE_NAME=master
+EXECUTOR_NUMBER=0
+GIT_BRANCH=development
+STAGE_NAME=Build
+BUILD_DISPLAY_NAME=#123
+JOB_BASE_NAME=development
+HUDSON_HOME=/var/lib/jenkins
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PROJECT=sciencesuit
+BUILD_ID=123
+BUILD_TAG=jenkins-TacOS-multibranch2-development-123
+JENKINS_URL=https://jenkins.elitac.nl/
+GIT_URL=ssh://git@git.elitac.nl/~/projects/TacOS.git/
+JOB_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/
+BUILD_NUMBER=123
+JENKINS_NODE_COOKIE=89e8e2a0-d811-48a1-8ddf-648bb5eee925
+RUN_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/display/redirect
+HUDSON_SERVER_COOKIE=53f3630ef2b75f6e
+JOB_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/display/redirect
+CLASSPATH=
+JOB_NAME=TacOS-multibranch2/development
+PWD=/var/lib/jenkins/workspace/TacOS-multibranch2_development
+GIT_PREVIOUS_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+BRANCH_NAME=development
+[Pipeline] sh
++ arm-none-eabi-gcc -v
+Using built-in specs.
+COLLECT_GCC=arm-none-eabi-gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-none-eabi/7.3.1/lto-wrapper
+Target: arm-none-eabi
+Configured with: ../configure --build=x86_64-linux-gnu --prefix=/usr --includedir='/usr/lib/include' --mandir='/usr/lib/share/man' --infodir='/usr/lib/share/info' --sysconfdir=/etc --localstatedir=/var --disable-silent-rules --libdir='/usr/lib/lib/x86_64-linux-gnu' --libexecdir='/usr/lib/lib/x86_64-linux-gnu' --disable-maintainer-mode --disable-dependency-tracking --mandir=/usr/share/man --enable-languages=c,c++,lto --enable-multilib --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --build=x86_64-linux-gnu --target=arm-none-eabi --with-system-zlib --with-gnu-as --with-gnu-ld --with-pkgversion=15:7-2018-q2-6 --without-included-gettext --prefix=/usr/lib --infodir=/usr/share/doc/gcc-arm-none-eabi/info --htmldir=/usr/share/doc/gcc-arm-none-eabi/html --pdfdir=/usr/share/doc/gcc-arm-none-eabi/pdf --bindir=/usr/bin --libexecdir=/usr/lib --libdir=/usr/lib --disable-libstdc++-v3 --host=x86_64-linux-gnu --with-headers=no --without-newlib --with-multilib-list=rmprofile CFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' CPPFLAGS='-Wdate-time -D_FORTIFY_SOURCE=2' CXXFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' FCFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' FFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' GCJFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' LDFLAGS='-Wl,-Bsymbolic-functions -Wl,-z,relro' OBJCFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' OBJCXXFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' INHIBIT_LIBC_CFLAGS=-DUSE_TM_CLONE_REGISTRY=0 AR_FOR_TARGET=arm-none-eabi-ar AS_FOR_TARGET=arm-none-eabi-as LD_FOR_TARGET=arm-none-eabi-ld NM_FOR_TARGET=arm-none-eabi-nm OBJDUMP_FOR_TARGET=arm-none-eabi-objdump RANLIB_FOR_TARGET=arm-none-eabi-ranlib READELF_FOR_TARGET=arm-none-eabi-readelf STRIP_FOR_TARGET=arm-none-eabi-strip
+Thread model: single
+gcc version 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907] (15:7-2018-q2-6) 
+[Pipeline] echo
+Cleaning..
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/generator/proto
+[Pipeline] {
+[Pipeline] sh
++ make
+protoc --python_out=. nanopb.proto
+protoc --python_out=. plugin.proto
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make clean
+Cleaning up build dir... (libs like nanopb will remain in there path)
+cmake -E remove_directory ../build
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] echo
+Building sciencesuit
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make sciencesuit
+****** Project sciencesuit *******
+cmake -E remove_directory ../build/sciencesuit
+cmake -E make_directory ../build/sciencesuit
+cd ../build/sciencesuit && cmake -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DGITHASH=ba5754424 -DPROJECT=sciencesuit "/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/"
+-- Building files for board type TADIC from Elitac
+-- Processor name is MK24F12 with CPU type CPU_MK24FN1M0VDC12 and linker prefix MK24FN1M0xxx12
+-- Building Git hash: ba5754424
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Eclipse version is set to 4.4.2. Adjust CMAKE_ECLIPSE_VERSION if this is wrong.
+-- Toolchain prefix: /usr/lib/arm-none-eabi
+-- Found Python2: /usr/bin/python2.7 (found version "2.7.17") found components:  Interpreter 
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Including nanopb from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- nanoPB; current CMAKE_CURRENT_LIST_DIR :: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- Including motosense_lib from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib
+-- Including board files from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/Boards
+-- Including FreeRTOS from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/RTOS
+-- Including systemview from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/systemview
+-- Including USB Stack from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/usb_device_hid_generic/freertos
+-- Including SerialFlash from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/SerialFlash-master
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/sciencesuit
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/sciencesuit
+[Pipeline] {
+[Pipeline] sh
++ make -j2
+Scanning dependencies of target generatePWMTable
+[  1%] Generating C proto files
+[  1%] Generating tactor intensity table
+-- (re)generating PWM table
+[  1%] Built target generatePWMTable
+Scanning dependencies of target nanopb_python
+[  1%] Generating python proto files
+Writing to GNSSLocation.pb.h and GNSSLocation.pb.c
+[  1%] Built target nanopb_python
+Scanning dependencies of target board_common
+[  1%] Building CXX object Boards/Elitac/Common/CMakeFiles/board_common.dir/USBDCD_IRQHandler.cpp.obj
+Writing to PhoneNavApp.pb.h and PhoneNavApp.pb.c
+[  1%] Linking CXX static library ../../../arc/libboard_common.a
+[  1%] Built target board_common
+Writing to SystemSettings.pb.h and SystemSettings.pb.c
+Scanning dependencies of target FREERTOS
+[  1%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/portable/GCC/ARM_CM4F/port.c.obj
+Writing to SensorAHRS.pb.h and SensorAHRS.pb.c
+[  1%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/croutine.c.obj
+[  2%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/event_groups.c.obj
+Writing to HomingAppLocation.pb.h and HomingAppLocation.pb.c
+[  2%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/list.c.obj
+[  3%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/queue.c.obj
+Writing to DeviceConfiguration.pb.h and DeviceConfiguration.pb.c
+[  3%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/tasks.c.obj
+Writing to Waypoint.pb.h and Waypoint.pb.c
+[  4%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/timers.c.obj
+Writing to Bluetooth.pb.h and Bluetooth.pb.c
+[  4%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/portable/MemMang/heap_5.c.obj
+Writing to HomingAppHeartBeat.pb.h and HomingAppHeartBeat.pb.c
+[  5%] Linking C static library ../arc/libFREERTOS.a
+[  5%] Built target FREERTOS
+Scanning dependencies of target serial_flash
+[  5%] Building CXX object lib/SerialFlash-master/CMakeFiles/serial_flash.dir/SerialFlashChip.cpp.obj
+Writing to Time.pb.h and Time.pb.c
+Writing to Quaternionfloat.pb.h and Quaternionfloat.pb.c
+Writing to Vector3float.pb.h and Vector3float.pb.c
+[  6%] Building CXX object lib/SerialFlash-master/CMakeFiles/serial_flash.dir/SerialFlashFile.cpp.obj
+Writing to Location.pb.h and Location.pb.c
+[  6%] Linking CXX static library ../../arc/libserial_flash.a
+[  6%] Built target serial_flash
+Scanning dependencies of target freertos_sysview
+Writing to SensorCapacitance.pb.h and SensorCapacitance.pb.c
+[  7%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/SEGGER/SEGGER_RTT.c.obj
+[  7%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/SEGGER/SEGGER_SYSVIEW.c.obj
+Writing to Action.pb.h and Action.pb.c
+Writing to BatteryCharacteristics.pb.h and BatteryCharacteristics.pb.c
+[  8%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/SEGGER/SEGGER_RTT_printf.c.obj
+Writing to SystemStatus.pb.h and SystemStatus.pb.c
+[  8%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/Sample/OS/SEGGER_SYSVIEW_FreeRTOS.c.obj
+[  9%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/Sample/Config/SEGGER_SYSVIEW_Config_FreeRTOS.c.obj
+[  9%] Linking CXX static library ../../arc/libfreertos_sysview.a
+Writing to TacApp.pb.h and TacApp.pb.c
+[  9%] Built target freertos_sysview
+Scanning dependencies of target usb_stack
+[  9%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_hid.c.obj
+Writing to DeviceConstellation.pb.h and DeviceConstellation.pb.c
+[  9%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_descriptor.c.obj
+Writing to messageTypes.pb.h and messageTypes.pb.c
+[ 10%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_class.c.obj
+[ 10%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_ch9.c.obj
+Writing to NavigationAppSettings.pb.h and NavigationAppSettings.pb.c
+[ 11%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/hid_generic.c.obj
+Writing to Modifier.pb.h and Modifier.pb.c
+[ 11%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/USB_Tx1.c.obj
+[ 12%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/USB_Rx1.c.obj
+Writing to FileHandler.pb.h and FileHandler.pb.c
+[ 12%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/__/__/usb_1.4.0/device/usb_device_dci.c.obj
+Writing to Accuracy.pb.h and Accuracy.pb.c
+[ 13%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/__/__/usb_1.4.0/device/usb_device_khci.c.obj
+Writing to SensorCompass.pb.h and SensorCompass.pb.c
+[ 13%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/__/__/usb_1.4.0/osa/usb_osa_freertos.c.obj
+Writing to NavigationOptions.pb.h and NavigationOptions.pb.c
+[ 14%] Linking CXX static library ../../../arc/libusb_stack.a
+[ 14%] Built target usb_stack
+Scanning dependencies of target board_files
+[ 15%] Building C object Boards/CMakeFiles/board_files.dir/Elitac/TADIC/board.c.obj
+Writing to BodyPart.pb.h and BodyPart.pb.c
+[ 15%] Building C object Boards/CMakeFiles/board_files.dir/Elitac/TADIC/clock_config.c.obj
+Writing to ApiAppStatus.pb.h and ApiAppStatus.pb.c
+[ 16%] Building C object Boards/CMakeFiles/board_files.dir/Elitac/TADIC/pin_mux.c.obj
+[ 16%] Linking CXX static library ../arc/libboard_files.a
+Writing to SensorRecordingControl.pb.h and SensorRecordingControl.pb.c
+[ 16%] Built target board_files
+Writing to Pattern.pb.h and Pattern.pb.c
+Writing to TactileFeedbackOptions.pb.h and TactileFeedbackOptions.pb.c
+Writing to Route.pb.h and Route.pb.c
+Writing to SmartShoulder.pb.h and SmartShoulder.pb.c
+Writing to DeviceSetting.pb.h and DeviceSetting.pb.c
+Writing to BodyCoordinate.pb.h and BodyCoordinate.pb.c
+Writing to SensorData.pb.h and SensorData.pb.c
+Writing to PredefinedPattern.pb.h and PredefinedPattern.pb.c
+Writing to ModifiedPattern.pb.h and ModifiedPattern.pb.c
+Writing to BatteryMonitorSettings.pb.h and BatteryMonitorSettings.pb.c
+Writing to Diagnostics.pb.h and Diagnostics.pb.c
+-- compiling .proto files
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/src
+Scanning dependencies of target nanopb
+[ 16%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_common.c.obj
+[ 17%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_decode.c.obj
+[ 17%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_encode.c.obj
+[ 18%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Pattern.pb.c.obj
+[ 18%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/messageTypes.pb.c.obj
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/ModifiedPattern.pb.c.obj
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Modifier.pb.c.obj
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Action.pb.c.obj
+[ 20%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BodyCoordinate.pb.c.obj
+[ 20%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BodyPart.pb.c.obj
+[ 21%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SystemStatus.pb.c.obj
+[ 21%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SystemSettings.pb.c.obj
+[ 22%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Location.pb.c.obj
+[ 22%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/GNSSLocation.pb.c.obj
+[ 22%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Time.pb.c.obj
+[ 23%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Accuracy.pb.c.obj
+[ 23%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SensorCompass.pb.c.obj
+[ 24%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/TacApp.pb.c.obj
+[ 24%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/HomingAppLocation.pb.c.obj
+[ 25%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/HomingAppHeartBeat.pb.c.obj
+[ 25%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/NavigationOptions.pb.c.obj
+[ 26%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Route.pb.c.obj
+[ 26%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Waypoint.pb.c.obj
+[ 26%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/NavigationAppSettings.pb.c.obj
+[ 27%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/FileHandler.pb.c.obj
+[ 27%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/TactileFeedbackOptions.pb.c.obj
+[ 28%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BatteryCharacteristics.pb.c.obj
+[ 28%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BatteryMonitorSettings.pb.c.obj
+[ 29%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceConfiguration.pb.c.obj
+[ 29%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceConstellation.pb.c.obj
+[ 30%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceSetting.pb.c.obj
+[ 30%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Bluetooth.pb.c.obj
+[ 31%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Diagnostics.pb.c.obj
+[ 31%] Linking C static library ../../arc/libnanopb.a
+[ 31%] Built target nanopb
+[ 31%] Generate device configuration binary
+Scanning dependencies of target motosense_lib
+[ 32%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/AppManager.cpp.obj
+[ 32%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/AbstractApp.cpp.obj
+[ 33%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/DiagnosticsApp.cpp.obj
+[ 33%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/SmartShirtApp.cpp.obj
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/broker/Broker.cpp.obj
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/DeviceConfigurator.cpp.obj
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/GlobalHardwareConfiguration.cpp.obj
+[ 35%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/hardwareConfiguration.cpp.obj
+[ 35%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/ProviderInformation.cpp.obj
+[ 36%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/BlueToothManager.cpp.obj
+[ 36%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/littleEndian.cpp.obj
+[ 37%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/numberUtil.cpp.obj
+[ 37%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/bodycoordinate/BodyCoordinateLocation.cpp.obj
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/bodycoordinate/Constellation.cpp.obj
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/PatternAction.cpp.obj
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/Pattern.cpp.obj
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/ModifiedPattern.cpp.obj
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/PatternBuilder.cpp.obj
+[ 40%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/Led.cpp.obj
+[ 40%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/Tactor.cpp.obj
+[ 41%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/EliTactor.cpp.obj
+[ 41%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/DRV2604Tactor.cpp.obj
+[ 42%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/DRV2624Tactor.cpp.obj
+[ 42%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BatteryMonitor.cpp.obj
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BQ27426BatMon.cpp.obj
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/STM6601OnOffCont.cpp.obj
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/M0OnOffCont.cpp.obj
+[ 44%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/spi/StretchSense.cpp.obj
+[ 44%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/MMA8452Q.cpp.obj
+[ 45%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/AHRS.cpp.obj
+[ 45%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/SPIDevice.cpp.obj
+[ 46%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BlueToothModule.cpp.obj
+[ 46%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BlueToothDevice.cpp.obj
+[ 47%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/ActionMessage.cpp.obj
+[ 47%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/IMessage.cpp.obj
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/LocationMessage.cpp.obj
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/PatternMessage.cpp.obj
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/ProtocolMessage.cpp.obj
+[ 49%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/SensorMessage.cpp.obj
+[ 49%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/SystemMessage.cpp.obj
+[ 50%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/navigation/NavigationAlgorithm.cpp.obj
+[ 50%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/Streams.cpp.obj
+[ 51%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/FieldCallbacks.cpp.obj
+[ 51%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/ProtoMapping.cpp.obj
+[ 52%] Building C object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/SPI/SPIWrapper.c.obj
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtoMessage.cpp.obj
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/GenericProtoMessage.cpp.obj
+[ 53%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtoVersionManagement.cpp.obj
+[ 53%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolWriter.cpp.obj
+[ 54%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolReader.cpp.obj
+[ 54%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolHeader.cpp.obj
+[ 55%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolHandler.cpp.obj
+[ 55%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/AbstractServiceProvider.cpp.obj
+[ 56%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/AbstractServiceSubscriber.cpp.obj
+[ 56%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/InitializationMarshall.cpp.obj
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/BaseConnector.cpp.obj
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/accelerometer/AccelerometerService.cpp.obj
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/actionplayer/ActionPlayerService.cpp.obj
+[ 58%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/actionplayer/compfreq.cpp.obj
+[ 58%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/AbstractBodyCoordinateService.cpp.obj
+[ 59%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/LineBodyCoordinateService.cpp.obj
+[ 59%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/PointBodyCoordinateService.cpp.obj
+[ 60%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/TriangleBodyCoordinateService.cpp.obj
+[ 60%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/ahrs/AHRSService.cpp.obj
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/location/LocationService.cpp.obj
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/location/PositionVelocityTimeData.cpp.obj
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/patternplayer/PatternQ.cpp.obj
+[ 62%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/patternplayer/PatternQController.cpp.obj
+[ 62%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/PowerManagement/PowerManagement.cpp.obj
+[ 63%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/protocol/ProtocolService.cpp.obj
+[ 63%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/system/SystemService.cpp.obj
+[ 64%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/FileManager.cpp.obj
+[ 64%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/FileService.cpp.obj
+[ 65%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/ArrayFile.cpp.obj
+[ 65%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/GuardedFile.cpp.obj
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/button/ButtonService.cpp.obj
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/ByteArray.cpp.obj
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/Gatt.cpp.obj
+[ 67%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/BatteryService.cpp.obj
+[ 67%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/HIDService.cpp.obj
+[ 68%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/GattClients/HeartRateGattClient.cpp.obj
+[ 68%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/GattClients/CycleCadenceGattClient.cpp.obj
+[ 69%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/BtleManager.cpp.obj
+[ 69%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/AbstractRTOSTask.cpp.obj
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/IntervalUpdateTask.cpp.obj
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/MonitorQTask.cpp.obj
+[ 71%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/PatternTimerTask.cpp.obj
+[ 71%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Coordinates.cpp.obj
+[ 71%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/HalfOpenInterval.cpp.obj
+[ 72%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Vector2.cpp.obj
+[ 72%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Vector3.cpp.obj
+[ 73%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/actionplayer/tactorpwmtable.cpp.obj
+[ 73%] Linking CXX static library ../../arc/libmotosense_lib.a
+[ 74%] Built target motosense_lib
+Scanning dependencies of target sciencesuit.elf
+[ 75%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/main.cpp.obj
+[ 75%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/Boards/Elitac/TADIC/interrupts.cpp.obj
+[ 76%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/memhooks.c.obj
+[ 76%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/osa_timing.cpp.obj
+[ 77%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/alloc.cpp.obj
+[ 77%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/os/Semaphore.cpp.obj
+[ 78%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/drivers/usb/USBDevice.c.obj
+[ 78%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/drivers/uart.cpp.obj
+[ 78%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/drivers/I2CDevice.cpp.obj
+[ 79%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/devices/NinaB1.cpp.obj
+[ 79%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/core/hardware_init.cpp.obj
+[ 80%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/os/setup.cpp.obj
+[ 80%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/tasks/FeedWatchdogTask.cpp.obj
+[ 81%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/tools/memdebug.c.obj
+[ 81%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/tools/timedebug.cpp.obj
+[ 82%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/core/ServiceManager.cpp.obj
+[ 82%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/services/usb/USBService.cpp.obj
+[ 83%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/services/usb/USBService_c_connector.cpp.obj
+[ 83%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/services/BlueTooth/BlueToothService.cpp.obj
+[ 83%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/services/uartdebug/DebugConsole.cpp.obj
+[ 84%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/navigation/NavigationApp.cpp.obj
+[ 84%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/navigation/NavigationSettingsSubscriber.cpp.obj
+[ 85%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/navigation/WaypointFixTask.cpp.obj
+[ 85%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/navigation/WaypointPatternTiming.cpp.obj
+[ 86%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/apiapp/ApiApp.cpp.obj
+[ 86%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/balancebelt/BaBeApp.cpp.obj
+[ 87%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/balancebelt/corner.c.obj
+[ 87%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/homing/HomingApp.cpp.obj
+[ 87%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/tests/SpiFlashMemTestApp.cpp.obj
+[ 88%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/tests/HardwareDiagApp.cpp.obj
+[ 88%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/apps/smartshirt/SMAApp.cpp.obj
+[ 89%] Building CXX object src/platform/CMakeFiles/sciencesuit.elf.dir/devices/GPIOLed.cpp.obj
+[ 89%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/CMSIS/RTOS/FreeRTOS/cmsis.c.obj
+[ 90%] Building ASM object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/gcc/startup_MK24F12.S.obj
+[ 90%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/system_MK24F12.c.obj
+[ 91%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_adc16.c.obj
+[ 91%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_i2c.c.obj
+[ 92%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_gpio.c.obj
+[ 92%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_clock.c.obj
+[ 92%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_rtc.c.obj
+[ 93%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_uart.c.obj
+[ 93%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_dspi.c.obj
+[ 94%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_dspi_edma.c.obj
+[ 94%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_edma.c.obj
+[ 95%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_dmamux.c.obj
+[ 95%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_wdog.c.obj
+[ 96%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_sim.c.obj
+[ 96%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_dac.c.obj
+[ 96%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/drivers/fsl_smc.c.obj
+[ 97%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/utilities/fsl_debug_console.c.obj
+[ 97%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/cmsis_drivers/fsl_dspi_cmsis.c.obj
+[ 98%] Building C object src/platform/CMakeFiles/sciencesuit.elf.dir/__/__/devices/MK24F12/cmsis_drivers/fsl_i2c_cmsis.c.obj
+[ 98%] Linking CXX executable ../../bin/sciencesuit.elf
+   text	   data	    bss	    dec	    hex	filename
+ 437224	   3032	 204544	 644800	  9d6c0	/var/lib/jenkins/workspace/TacOS-multibranch2_development/build/sciencesuit/bin/sciencesuit.elf
+[ 98%] Built target sciencesuit.elf
+Scanning dependencies of target sciencesuit.elf_hex
+[100%] Generating sciencesuit.elf.hex
+[100%] Built target sciencesuit.elf_hex
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] sh
++ tr -d 
+
++ cut -f 2
++ grep elf.hex
++ arm-none-eabi-size build/sciencesuit/bin/sciencesuit.elf.hex
+[Pipeline] sh
++ echo -n ,
+[Pipeline] sh
++ arm-none-eabi-nm -l --demangle --print-size --size-sort --radix=d build/sciencesuit/bin/sciencesuit.elf
++ tail -10
+[Pipeline] sh
++ arm-none-eabi-objcopy --input-target=ihex --output-target=binary build/sciencesuit/bin/sciencesuit.elf.hex build/sciencesuit/bin/sciencesuit.bin
+[Pipeline] step
+Archiving artifacts
+Recording fingerprints
+[Pipeline] step
+Archiving artifacts
+Recording fingerprints
+[Pipeline] step
+Archiving artifacts
+Recording fingerprints
+[Pipeline] echo
+Running 123 CC null CXX null
+[Pipeline] echo
+Path /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+[Pipeline] sh
++ printenv
+GIT_PREVIOUS_SUCCESSFUL_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+HOSTNAME=75b7b5fefb67
+RUN_CHANGES_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/display/redirect?page=changes
+GIT_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+NODE_LABELS=docker master
+HUDSON_URL=https://jenkins.elitac.nl/
+HOME=/
+BUILD_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/
+JENKINS_SERVER_COOKIE=durable-bde5c232dca025e06ab67e2b6f2d508c
+WORKSPACE=/var/lib/jenkins/workspace/TacOS-multibranch2_development
+NODE_NAME=master
+EXECUTOR_NUMBER=0
+GIT_BRANCH=development
+STAGE_NAME=Build
+BUILD_DISPLAY_NAME=#123
+JOB_BASE_NAME=development
+HUDSON_HOME=/var/lib/jenkins
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PROJECT=balancebelt
+BUILD_ID=123
+BUILD_TAG=jenkins-TacOS-multibranch2-development-123
+JENKINS_URL=https://jenkins.elitac.nl/
+GIT_URL=ssh://git@git.elitac.nl/~/projects/TacOS.git/
+JOB_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/
+BUILD_NUMBER=123
+JENKINS_NODE_COOKIE=89e8e2a0-d811-48a1-8ddf-648bb5eee925
+RUN_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/display/redirect
+HUDSON_SERVER_COOKIE=53f3630ef2b75f6e
+JOB_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/display/redirect
+CLASSPATH=
+JOB_NAME=TacOS-multibranch2/development
+PWD=/var/lib/jenkins/workspace/TacOS-multibranch2_development
+GIT_PREVIOUS_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+BRANCH_NAME=development
+[Pipeline] sh
++ arm-none-eabi-gcc -v
+Using built-in specs.
+COLLECT_GCC=arm-none-eabi-gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-none-eabi/7.3.1/lto-wrapper
+Target: arm-none-eabi
+Configured with: ../configure --build=x86_64-linux-gnu --prefix=/usr --includedir='/usr/lib/include' --mandir='/usr/lib/share/man' --infodir='/usr/lib/share/info' --sysconfdir=/etc --localstatedir=/var --disable-silent-rules --libdir='/usr/lib/lib/x86_64-linux-gnu' --libexecdir='/usr/lib/lib/x86_64-linux-gnu' --disable-maintainer-mode --disable-dependency-tracking --mandir=/usr/share/man --enable-languages=c,c++,lto --enable-multilib --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --build=x86_64-linux-gnu --target=arm-none-eabi --with-system-zlib --with-gnu-as --with-gnu-ld --with-pkgversion=15:7-2018-q2-6 --without-included-gettext --prefix=/usr/lib --infodir=/usr/share/doc/gcc-arm-none-eabi/info --htmldir=/usr/share/doc/gcc-arm-none-eabi/html --pdfdir=/usr/share/doc/gcc-arm-none-eabi/pdf --bindir=/usr/bin --libexecdir=/usr/lib --libdir=/usr/lib --disable-libstdc++-v3 --host=x86_64-linux-gnu --with-headers=no --without-newlib --with-multilib-list=rmprofile CFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' CPPFLAGS='-Wdate-time -D_FORTIFY_SOURCE=2' CXXFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' FCFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' FFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' GCJFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' LDFLAGS='-Wl,-Bsymbolic-functions -Wl,-z,relro' OBJCFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' OBJCXXFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' INHIBIT_LIBC_CFLAGS=-DUSE_TM_CLONE_REGISTRY=0 AR_FOR_TARGET=arm-none-eabi-ar AS_FOR_TARGET=arm-none-eabi-as LD_FOR_TARGET=arm-none-eabi-ld NM_FOR_TARGET=arm-none-eabi-nm OBJDUMP_FOR_TARGET=arm-none-eabi-objdump RANLIB_FOR_TARGET=arm-none-eabi-ranlib READELF_FOR_TARGET=arm-none-eabi-readelf STRIP_FOR_TARGET=arm-none-eabi-strip
+Thread model: single
+gcc version 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907] (15:7-2018-q2-6) 
+[Pipeline] echo
+Cleaning..
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/generator/proto
+[Pipeline] {
+[Pipeline] sh
++ make
+make: Nothing to be done for 'all'.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make clean
+Cleaning up build dir... (libs like nanopb will remain in there path)
+cmake -E remove_directory ../build
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] echo
+Building balancebelt
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make balancebelt
+****** Project balancebelt *******
+cmake -E remove_directory ../build/balancebelt
+cmake -E make_directory ../build/balancebelt
+cd ../build/balancebelt && cmake -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DGITHASH=ba5754424 -DPROJECT=balancebelt "/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/"
+-- Building files for board type BABE_1812 from Elitac
+-- Processor name is MK24F12 with CPU type CPU_MK24FN1M0VDC12 and linker prefix MK24FN1M0xxx12
+-- Building Git hash: ba5754424
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+-- Eclipse version is set to 4.4.2. Adjust CMAKE_ECLIPSE_VERSION if this is wrong.
+-- Toolchain prefix: /usr/lib/arm-none-eabi
+-- Found Python2: /usr/bin/python2.7 (found version "2.7.17") found components:  Interpreter 
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Including nanopb from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- nanoPB; current CMAKE_CURRENT_LIST_DIR :: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- Including motosense_lib from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib
+-- Including board files from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/Boards
+-- Including FreeRTOS from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/RTOS
+-- Including systemview from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/systemview
+-- Including USB Stack from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/usb_device_hid_generic/freertos
+-- Including SerialFlash from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/SerialFlash-master
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/balancebelt
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/balancebelt
+[Pipeline] {
+[Pipeline] sh
++ make -j2
+[  0%] Generating C proto files
+Scanning dependencies of target generatePWMTable
+[  1%] Generating tactor intensity table
+-- (re)generating PWM table
+[  1%] Built target generatePWMTable
+Scanning dependencies of target nanopb_python
+[  2%] Generating python proto files
+[  2%] Built target nanopb_python
+Writing to GNSSLocation.pb.h and GNSSLocation.pb.c
+Scanning dependencies of target board_common
+[  2%] Building CXX object Boards/Elitac/Common/CMakeFiles/board_common.dir/USBDCD_IRQHandler.cpp.obj
+[  3%] Linking CXX static library ../../../arc/libboard_common.a
+Writing to PhoneNavApp.pb.h and PhoneNavApp.pb.c
+[  3%] Built target board_common
+Scanning dependencies of target FREERTOS
+[  3%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/portable/GCC/ARM_CM4F/port.c.obj
+Writing to SystemSettings.pb.h and SystemSettings.pb.c
+[  3%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/croutine.c.obj
+[  4%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/event_groups.c.obj
+Writing to SensorAHRS.pb.h and SensorAHRS.pb.c
+[  4%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/list.c.obj
+[  5%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/queue.c.obj
+Writing to HomingAppLocation.pb.h and HomingAppLocation.pb.c
+[  5%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/tasks.c.obj
+Writing to DeviceConfiguration.pb.h and DeviceConfiguration.pb.c
+[  6%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/timers.c.obj
+Writing to Waypoint.pb.h and Waypoint.pb.c
+[  6%] Building C object RTOS/CMakeFiles/FREERTOS.dir/FreeRTOS_9.0.0/Source/portable/MemMang/heap_5.c.obj
+[  7%] Linking C static library ../arc/libFREERTOS.a
+Writing to Bluetooth.pb.h and Bluetooth.pb.c
+[  7%] Built target FREERTOS
+Scanning dependencies of target serial_flash
+[  7%] Building CXX object lib/SerialFlash-master/CMakeFiles/serial_flash.dir/SerialFlashChip.cpp.obj
+Writing to HomingAppHeartBeat.pb.h and HomingAppHeartBeat.pb.c
+[  8%] Building CXX object lib/SerialFlash-master/CMakeFiles/serial_flash.dir/SerialFlashFile.cpp.obj
+Writing to Time.pb.h and Time.pb.c
+[  8%] Linking CXX static library ../../arc/libserial_flash.a
+Writing to Quaternionfloat.pb.h and Quaternionfloat.pb.c
+[  8%] Built target serial_flash
+Scanning dependencies of target freertos_sysview
+[  8%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/SEGGER/SEGGER_RTT.c.obj
+Writing to Vector3float.pb.h and Vector3float.pb.c
+[  8%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/SEGGER/SEGGER_SYSVIEW.c.obj
+Writing to Location.pb.h and Location.pb.c
+[  9%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/SEGGER/SEGGER_RTT_printf.c.obj
+Writing to SensorCapacitance.pb.h and SensorCapacitance.pb.c
+[  9%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/Sample/OS/SEGGER_SYSVIEW_FreeRTOS.c.obj
+[ 10%] Building C object lib/systemview/CMakeFiles/freertos_sysview.dir/Sample/Config/SEGGER_SYSVIEW_Config_FreeRTOS.c.obj
+Writing to Action.pb.h and Action.pb.c
+[ 10%] Linking CXX static library ../../arc/libfreertos_sysview.a
+[ 10%] Built target freertos_sysview
+Writing to BatteryCharacteristics.pb.h and BatteryCharacteristics.pb.c
+Scanning dependencies of target usb_stack
+[ 10%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_hid.c.obj
+Writing to SystemStatus.pb.h and SystemStatus.pb.c
+[ 10%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_descriptor.c.obj
+[ 11%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_class.c.obj
+Writing to TacApp.pb.h and TacApp.pb.c
+[ 11%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/usb_device_ch9.c.obj
+Writing to DeviceConstellation.pb.h and DeviceConstellation.pb.c
+[ 12%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/hid_generic.c.obj
+Writing to messageTypes.pb.h and messageTypes.pb.c
+[ 12%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/USB_Tx1.c.obj
+[ 13%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/USB_Rx1.c.obj
+Writing to NavigationAppSettings.pb.h and NavigationAppSettings.pb.c
+[ 13%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/__/__/usb_1.4.0/device/usb_device_dci.c.obj
+[ 14%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/__/__/usb_1.4.0/device/usb_device_khci.c.obj
+Writing to Modifier.pb.h and Modifier.pb.c
+[ 14%] Building C object lib/usb_device_hid_generic/freertos/CMakeFiles/usb_stack.dir/__/__/usb_1.4.0/osa/usb_osa_freertos.c.obj
+Writing to FileHandler.pb.h and FileHandler.pb.c
+[ 15%] Linking CXX static library ../../../arc/libusb_stack.a
+Writing to Accuracy.pb.h and Accuracy.pb.c
+[ 15%] Built target usb_stack
+Scanning dependencies of target board_files
+[ 15%] Building C object Boards/CMakeFiles/board_files.dir/Elitac/BABE_1812/board.c.obj
+Writing to SensorCompass.pb.h and SensorCompass.pb.c
+[ 16%] Building C object Boards/CMakeFiles/board_files.dir/Elitac/BABE_1812/clock_config.c.obj
+[ 16%] Building C object Boards/CMakeFiles/board_files.dir/Elitac/BABE_1812/pin_mux.c.obj
+Writing to NavigationOptions.pb.h and NavigationOptions.pb.c
+[ 17%] Linking CXX static library ../arc/libboard_files.a
+[ 17%] Built target board_files
+Writing to BodyPart.pb.h and BodyPart.pb.c
+Writing to ApiAppStatus.pb.h and ApiAppStatus.pb.c
+Writing to SensorRecordingControl.pb.h and SensorRecordingControl.pb.c
+Writing to Pattern.pb.h and Pattern.pb.c
+Writing to TactileFeedbackOptions.pb.h and TactileFeedbackOptions.pb.c
+Writing to Route.pb.h and Route.pb.c
+Writing to SmartShoulder.pb.h and SmartShoulder.pb.c
+Writing to DeviceSetting.pb.h and DeviceSetting.pb.c
+Writing to BodyCoordinate.pb.h and BodyCoordinate.pb.c
+Writing to SensorData.pb.h and SensorData.pb.c
+Writing to PredefinedPattern.pb.h and PredefinedPattern.pb.c
+Writing to ModifiedPattern.pb.h and ModifiedPattern.pb.c
+Writing to BatteryMonitorSettings.pb.h and BatteryMonitorSettings.pb.c
+Writing to Diagnostics.pb.h and Diagnostics.pb.c
+-- compiling .proto files
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/src
+Scanning dependencies of target nanopb
+[ 17%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_common.c.obj
+[ 18%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_decode.c.obj
+[ 18%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_encode.c.obj
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/messageTypes.pb.c.obj
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Pattern.pb.c.obj
+[ 20%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Modifier.pb.c.obj
+[ 20%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/ModifiedPattern.pb.c.obj
+[ 21%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Action.pb.c.obj
+[ 21%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BodyCoordinate.pb.c.obj
+[ 21%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BodyPart.pb.c.obj
+[ 22%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SystemStatus.pb.c.obj
+[ 22%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SystemSettings.pb.c.obj
+[ 23%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Location.pb.c.obj
+[ 23%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/GNSSLocation.pb.c.obj
+[ 24%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Time.pb.c.obj
+[ 24%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Accuracy.pb.c.obj
+[ 25%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/TacApp.pb.c.obj
+[ 25%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SensorCompass.pb.c.obj
+[ 26%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/HomingAppHeartBeat.pb.c.obj
+[ 26%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/HomingAppLocation.pb.c.obj
+[ 26%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/NavigationOptions.pb.c.obj
+[ 27%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Route.pb.c.obj
+[ 27%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Waypoint.pb.c.obj
+[ 28%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/NavigationAppSettings.pb.c.obj
+[ 28%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/FileHandler.pb.c.obj
+[ 29%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/TactileFeedbackOptions.pb.c.obj
+[ 29%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BatteryCharacteristics.pb.c.obj
+[ 30%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BatteryMonitorSettings.pb.c.obj
+[ 30%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceConfiguration.pb.c.obj
+[ 30%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceConstellation.pb.c.obj
+[ 31%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Bluetooth.pb.c.obj
+[ 31%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceSetting.pb.c.obj
+[ 32%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Diagnostics.pb.c.obj
+[ 32%] Linking C static library ../../arc/libnanopb.a
+[ 32%] Built target nanopb
+[ 33%] Generate device configuration binary
+Scanning dependencies of target motosense_lib
+[ 33%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/AbstractApp.cpp.obj
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/AppManager.cpp.obj
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/DiagnosticsApp.cpp.obj
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/SmartShirtApp.cpp.obj
+[ 35%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/broker/Broker.cpp.obj
+[ 35%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/DeviceConfigurator.cpp.obj
+[ 36%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/GlobalHardwareConfiguration.cpp.obj
+[ 36%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/hardwareConfiguration.cpp.obj
+[ 37%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/ProviderInformation.cpp.obj
+[ 37%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/BlueToothManager.cpp.obj
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/littleEndian.cpp.obj
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/numberUtil.cpp.obj
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/bodycoordinate/BodyCoordinateLocation.cpp.obj
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/bodycoordinate/Constellation.cpp.obj
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/PatternAction.cpp.obj
+[ 40%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/Pattern.cpp.obj
+[ 40%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/ModifiedPattern.cpp.obj
+[ 41%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/PatternBuilder.cpp.obj
+[ 41%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/Led.cpp.obj
+[ 42%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/Tactor.cpp.obj
+[ 42%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/EliTactor.cpp.obj
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/DRV2604Tactor.cpp.obj
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/DRV2624Tactor.cpp.obj
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BatteryMonitor.cpp.obj
+[ 44%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BQ27426BatMon.cpp.obj
+[ 44%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/STM6601OnOffCont.cpp.obj
+[ 45%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/M0OnOffCont.cpp.obj
+[ 45%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/spi/StretchSense.cpp.obj
+[ 46%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/MMA8452Q.cpp.obj
+[ 46%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/AHRS.cpp.obj
+[ 47%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/SPIDevice.cpp.obj
+[ 47%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BlueToothModule.cpp.obj
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BlueToothDevice.cpp.obj
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/ActionMessage.cpp.obj
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/IMessage.cpp.obj
+[ 49%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/LocationMessage.cpp.obj
+[ 49%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/PatternMessage.cpp.obj
+[ 50%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/ProtocolMessage.cpp.obj
+[ 50%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/SensorMessage.cpp.obj
+[ 51%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/SystemMessage.cpp.obj
+[ 51%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/navigation/NavigationAlgorithm.cpp.obj
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/Streams.cpp.obj
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/FieldCallbacks.cpp.obj
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/ProtoMapping.cpp.obj
+[ 53%] Building C object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/SPI/SPIWrapper.c.obj
+[ 53%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtoMessage.cpp.obj
+[ 54%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/GenericProtoMessage.cpp.obj
+[ 54%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtoVersionManagement.cpp.obj
+[ 55%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolWriter.cpp.obj
+[ 55%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolReader.cpp.obj
+[ 56%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolHeader.cpp.obj
+[ 56%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolHandler.cpp.obj
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/AbstractServiceProvider.cpp.obj
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/AbstractServiceSubscriber.cpp.obj
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/InitializationMarshall.cpp.obj
+[ 58%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/BaseConnector.cpp.obj
+[ 58%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/accelerometer/AccelerometerService.cpp.obj
+[ 59%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/actionplayer/ActionPlayerService.cpp.obj
+[ 59%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/actionplayer/compfreq.cpp.obj
+[ 60%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/AbstractBodyCoordinateService.cpp.obj
+[ 60%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/LineBodyCoordinateService.cpp.obj
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/PointBodyCoordinateService.cpp.obj
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/TriangleBodyCoordinateService.cpp.obj
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/ahrs/AHRSService.cpp.obj
+[ 62%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/location/LocationService.cpp.obj
+[ 62%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/location/PositionVelocityTimeData.cpp.obj
+[ 63%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/patternplayer/PatternQ.cpp.obj
+[ 63%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/patternplayer/PatternQController.cpp.obj
+[ 64%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/PowerManagement/PowerManagement.cpp.obj
+[ 64%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/protocol/ProtocolService.cpp.obj
+[ 65%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/system/SystemService.cpp.obj
+[ 65%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/FileManager.cpp.obj
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/FileService.cpp.obj
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/ArrayFile.cpp.obj
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/GuardedFile.cpp.obj
+[ 67%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/button/ButtonService.cpp.obj
+[ 67%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/ByteArray.cpp.obj
+[ 68%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/Gatt.cpp.obj
+[ 68%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/BatteryService.cpp.obj
+[ 69%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/HIDService.cpp.obj
+[ 69%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/GattClients/HeartRateGattClient.cpp.obj
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/GattClients/CycleCadenceGattClient.cpp.obj
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/BtleManager.cpp.obj
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/AbstractRTOSTask.cpp.obj
+[ 71%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/IntervalUpdateTask.cpp.obj
+[ 71%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/MonitorQTask.cpp.obj
+[ 72%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/PatternTimerTask.cpp.obj
+[ 72%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Coordinates.cpp.obj
+[ 73%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/HalfOpenInterval.cpp.obj
+[ 73%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Vector2.cpp.obj
+[ 74%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Vector3.cpp.obj
+[ 74%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/actionplayer/tactorpwmtable.cpp.obj
+[ 75%] Linking CXX static library ../../arc/libmotosense_lib.a
+[ 75%] Built target motosense_lib
+Scanning dependencies of target balancebelt.elf
+[ 75%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/main.cpp.obj
+[ 75%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/Boards/Elitac/BABE_1812/interrupts.cpp.obj
+[ 76%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/memhooks.c.obj
+[ 76%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/osa_timing.cpp.obj
+[ 77%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/alloc.cpp.obj
+[ 77%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/os/Semaphore.cpp.obj
+[ 78%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/drivers/usb/USBDevice.c.obj
+[ 78%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/drivers/uart.cpp.obj
+[ 79%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/drivers/I2CDevice.cpp.obj
+[ 79%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/devices/NinaB1.cpp.obj
+[ 80%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/core/hardware_init.cpp.obj
+[ 80%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/os/setup.cpp.obj
+[ 80%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/tasks/FeedWatchdogTask.cpp.obj
+[ 81%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/tools/memdebug.c.obj
+[ 81%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/tools/timedebug.cpp.obj
+[ 82%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/core/ServiceManager.cpp.obj
+[ 82%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/services/usb/USBService.cpp.obj
+[ 83%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/services/usb/USBService_c_connector.cpp.obj
+[ 83%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/services/BlueTooth/BlueToothService.cpp.obj
+[ 84%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/services/uartdebug/DebugConsole.cpp.obj
+[ 84%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/navigation/NavigationApp.cpp.obj
+[ 84%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/navigation/NavigationSettingsSubscriber.cpp.obj
+[ 85%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/navigation/WaypointFixTask.cpp.obj
+[ 85%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/navigation/WaypointPatternTiming.cpp.obj
+[ 86%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/apiapp/ApiApp.cpp.obj
+[ 86%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/balancebelt/BaBeApp.cpp.obj
+[ 87%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/apps/balancebelt/corner.c.obj
+[ 87%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/homing/HomingApp.cpp.obj
+[ 88%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/tests/SpiFlashMemTestApp.cpp.obj
+[ 88%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/tests/HardwareDiagApp.cpp.obj
+[ 89%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/apps/smartshirt/SMAApp.cpp.obj
+[ 89%] Building CXX object src/platform/CMakeFiles/balancebelt.elf.dir/devices/GPIOLed.cpp.obj
+[ 89%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/CMSIS/RTOS/FreeRTOS/cmsis.c.obj
+[ 90%] Building ASM object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/gcc/startup_MK24F12.S.obj
+[ 90%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/system_MK24F12.c.obj
+[ 91%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_adc16.c.obj
+[ 91%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_i2c.c.obj
+[ 92%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_gpio.c.obj
+[ 92%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_clock.c.obj
+[ 93%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_rtc.c.obj
+[ 93%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_uart.c.obj
+[ 93%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_dspi.c.obj
+[ 94%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_dspi_edma.c.obj
+[ 94%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_edma.c.obj
+[ 95%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_dmamux.c.obj
+[ 95%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_wdog.c.obj
+[ 96%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_sim.c.obj
+[ 96%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_dac.c.obj
+[ 97%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/drivers/fsl_smc.c.obj
+[ 97%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/utilities/fsl_debug_console.c.obj
+[ 98%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/cmsis_drivers/fsl_dspi_cmsis.c.obj
+[ 98%] Building C object src/platform/CMakeFiles/balancebelt.elf.dir/__/__/devices/MK24F12/cmsis_drivers/fsl_i2c_cmsis.c.obj
+[ 98%] Linking CXX executable ../../bin/balancebelt.elf
+   text	   data	    bss	    dec	    hex	filename
+ 329152	   3008	 204092	 536252	  82ebc	/var/lib/jenkins/workspace/TacOS-multibranch2_development/build/balancebelt/bin/balancebelt.elf
+[ 98%] Built target balancebelt.elf
+Scanning dependencies of target balancebelt.elf_hex
+[100%] Generating balancebelt.elf.hex
+[100%] Built target balancebelt.elf_hex
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] sh
++ tr -d 
+
++ arm-none-eabi-size build/balancebelt/bin/balancebelt.elf.hex
++ grep elf.hex
++ cut -f 2
+[Pipeline] sh
++ echo -n ,
+[Pipeline] sh
++ tail -10
++ arm-none-eabi-nm -l --demangle --print-size --size-sort --radix=d build/balancebelt/bin/balancebelt.elf
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/balancebelt/bin
+[Pipeline] {
+[Pipeline] sh
++ srec_cat ../../../TacOS/projects/balancebelt/balancebelt_secure_bootloader.hex -Intel balancebelt.elf.hex -Intel -Output secure_bootloader_balancebelt.hex -Intel
+[Pipeline] sh
++ srec_cat ../../../TacOS/projects/balancebelt/balancebelt_debug_bootloader.hex -Intel balancebelt.elf.hex -Intel -Output debug_bootloader_balancebelt.hex -Intel
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] sh
++ arm-none-eabi-objcopy --input-target=ihex --output-target=binary build/balancebelt/bin/balancebelt.elf.hex build/balancebelt/bin/balancebelt.bin
+[Pipeline] step
+Archiving artifacts
+Recording fingerprints
+[Pipeline] step
+Archiving artifacts
+Recording fingerprints
+[Pipeline] step
+Archiving artifacts
+Recording fingerprints
+[Pipeline] echo
+Running 123 CC null CXX null
+[Pipeline] echo
+Path /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+[Pipeline] sh
++ printenv
+GIT_PREVIOUS_SUCCESSFUL_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+HOSTNAME=75b7b5fefb67
+RUN_CHANGES_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/display/redirect?page=changes
+GIT_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+NODE_LABELS=docker master
+HUDSON_URL=https://jenkins.elitac.nl/
+HOME=/
+BUILD_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/
+JENKINS_SERVER_COOKIE=durable-bde5c232dca025e06ab67e2b6f2d508c
+WORKSPACE=/var/lib/jenkins/workspace/TacOS-multibranch2_development
+NODE_NAME=master
+EXECUTOR_NUMBER=0
+GIT_BRANCH=development
+STAGE_NAME=Build
+BUILD_DISPLAY_NAME=#123
+JOB_BASE_NAME=development
+HUDSON_HOME=/var/lib/jenkins
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PROJECT=local
+BUILD_ID=123
+BUILD_TAG=jenkins-TacOS-multibranch2-development-123
+JENKINS_URL=https://jenkins.elitac.nl/
+GIT_URL=ssh://git@git.elitac.nl/~/projects/TacOS.git/
+JOB_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/
+BUILD_NUMBER=123
+JENKINS_NODE_COOKIE=89e8e2a0-d811-48a1-8ddf-648bb5eee925
+RUN_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/123/display/redirect
+HUDSON_SERVER_COOKIE=53f3630ef2b75f6e
+JOB_DISPLAY_URL=https://jenkins.elitac.nl/job/TacOS-multibranch2/job/development/display/redirect
+CLASSPATH=
+JOB_NAME=TacOS-multibranch2/development
+PWD=/var/lib/jenkins/workspace/TacOS-multibranch2_development
+GIT_PREVIOUS_COMMIT=ba57544240c7d2d6bebdfb4b1facb45ae6acdd51
+BRANCH_NAME=development
+[Pipeline] sh
++ arm-none-eabi-gcc -v
+Using built-in specs.
+COLLECT_GCC=arm-none-eabi-gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-none-eabi/7.3.1/lto-wrapper
+Target: arm-none-eabi
+Configured with: ../configure --build=x86_64-linux-gnu --prefix=/usr --includedir='/usr/lib/include' --mandir='/usr/lib/share/man' --infodir='/usr/lib/share/info' --sysconfdir=/etc --localstatedir=/var --disable-silent-rules --libdir='/usr/lib/lib/x86_64-linux-gnu' --libexecdir='/usr/lib/lib/x86_64-linux-gnu' --disable-maintainer-mode --disable-dependency-tracking --mandir=/usr/share/man --enable-languages=c,c++,lto --enable-multilib --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --build=x86_64-linux-gnu --target=arm-none-eabi --with-system-zlib --with-gnu-as --with-gnu-ld --with-pkgversion=15:7-2018-q2-6 --without-included-gettext --prefix=/usr/lib --infodir=/usr/share/doc/gcc-arm-none-eabi/info --htmldir=/usr/share/doc/gcc-arm-none-eabi/html --pdfdir=/usr/share/doc/gcc-arm-none-eabi/pdf --bindir=/usr/bin --libexecdir=/usr/lib --libdir=/usr/lib --disable-libstdc++-v3 --host=x86_64-linux-gnu --with-headers=no --without-newlib --with-multilib-list=rmprofile CFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' CPPFLAGS='-Wdate-time -D_FORTIFY_SOURCE=2' CXXFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' FCFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' FFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' GCJFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' LDFLAGS='-Wl,-Bsymbolic-functions -Wl,-z,relro' OBJCFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' OBJCXXFLAGS='-g -O2 -fdebug-prefix-map=/build/gcc-arm-none-eabi-76K7U5/gcc-arm-none-eabi-7-2018-q2=. -fstack-protector-strong' INHIBIT_LIBC_CFLAGS=-DUSE_TM_CLONE_REGISTRY=0 AR_FOR_TARGET=arm-none-eabi-ar AS_FOR_TARGET=arm-none-eabi-as LD_FOR_TARGET=arm-none-eabi-ld NM_FOR_TARGET=arm-none-eabi-nm OBJDUMP_FOR_TARGET=arm-none-eabi-objdump RANLIB_FOR_TARGET=arm-none-eabi-ranlib READELF_FOR_TARGET=arm-none-eabi-readelf STRIP_FOR_TARGET=arm-none-eabi-strip
+Thread model: single
+gcc version 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907] (15:7-2018-q2-6) 
+[Pipeline] echo
+Cleaning..
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/generator/proto
+[Pipeline] {
+[Pipeline] sh
++ make
+make: Nothing to be done for 'all'.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make clean
+Cleaning up build dir... (libs like nanopb will remain in there path)
+cmake -E remove_directory ../build
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] echo
+Building local
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS
+[Pipeline] {
+[Pipeline] sh
++ make local
+****** Project local *******
+cmake -E remove_directory ../build/local
+cmake -E make_directory ../build/local
+cd ../build/local && cmake -DCMAKE_BUILD_TYPE=Debug -G"Eclipse CDT4 - Unix Makefiles" -DGITHASH=ba5754424 -DPROJECT=local "/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/"
+-- Building files for board type  from 
+-- Processor name is  with CPU type  and linker prefix 
+-- Building Git hash: ba5754424
+-- The C compiler identification is GNU 9.2.1
+-- The CXX compiler identification is GNU 9.2.1
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Eclipse version is set to 4.4.2. Adjust CMAKE_ECLIPSE_VERSION if this is wrong.
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Toolchain prefix: /usr/local
+-- Found Python2: /usr/bin/python2.7 (found version "2.7.17") found components:  Interpreter 
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Including nanopb from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- nanoPB; current CMAKE_CURRENT_LIST_DIR :: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/nanopb
+-- Including motosense_lib from: /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/motosense_lib
+-- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/local
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/TacOS-multibranch2_development/build/local
+[Pipeline] {
+[Pipeline] sh
++ make -j2
+[  0%] Generating C proto files
+Scanning dependencies of target generatePWMTable
+[  0%] Generating tactor intensity table
+-- (re)generating PWM table
+[  0%] Built target generatePWMTable
+Scanning dependencies of target nanopb_python
+[  1%] Generating python proto files
+Writing to GNSSLocation.pb.h and GNSSLocation.pb.c
+[  1%] Built target nanopb_python
+Scanning dependencies of target gmock
+Writing to PhoneNavApp.pb.h and PhoneNavApp.pb.c
+[  2%] Building CXX object lib/gmock-1.7.0/CMakeFiles/gmock.dir/gtest/src/gtest-all.cc.o
+Writing to SystemSettings.pb.h and SystemSettings.pb.c
+Writing to SensorAHRS.pb.h and SensorAHRS.pb.c
+Writing to HomingAppLocation.pb.h and HomingAppLocation.pb.c
+Writing to DeviceConfiguration.pb.h and DeviceConfiguration.pb.c
+Writing to Waypoint.pb.h and Waypoint.pb.c
+Writing to Bluetooth.pb.h and Bluetooth.pb.c
+Writing to HomingAppHeartBeat.pb.h and HomingAppHeartBeat.pb.c
+Writing to Time.pb.h and Time.pb.c
+Writing to Quaternionfloat.pb.h and Quaternionfloat.pb.c
+Writing to Vector3float.pb.h and Vector3float.pb.c
+Writing to Location.pb.h and Location.pb.c
+Writing to SensorCapacitance.pb.h and SensorCapacitance.pb.c
+Writing to Action.pb.h and Action.pb.c
+Writing to BatteryCharacteristics.pb.h and BatteryCharacteristics.pb.c
+Writing to SystemStatus.pb.h and SystemStatus.pb.c
+Writing to TacApp.pb.h and TacApp.pb.c
+Writing to DeviceConstellation.pb.h and DeviceConstellation.pb.c
+Writing to messageTypes.pb.h and messageTypes.pb.c
+Writing to NavigationAppSettings.pb.h and NavigationAppSettings.pb.c
+Writing to Modifier.pb.h and Modifier.pb.c
+Writing to FileHandler.pb.h and FileHandler.pb.c
+Writing to Accuracy.pb.h and Accuracy.pb.c
+Writing to SensorCompass.pb.h and SensorCompass.pb.c
+Writing to NavigationOptions.pb.h and NavigationOptions.pb.c
+Writing to BodyPart.pb.h and BodyPart.pb.c
+Writing to ApiAppStatus.pb.h and ApiAppStatus.pb.c
+Writing to SensorRecordingControl.pb.h and SensorRecordingControl.pb.c
+Writing to Pattern.pb.h and Pattern.pb.c
+Writing to TactileFeedbackOptions.pb.h and TactileFeedbackOptions.pb.c
+Writing to Route.pb.h and Route.pb.c
+Writing to SmartShoulder.pb.h and SmartShoulder.pb.c
+Writing to DeviceSetting.pb.h and DeviceSetting.pb.c
+Writing to BodyCoordinate.pb.h and BodyCoordinate.pb.c
+Writing to SensorData.pb.h and SensorData.pb.c
+Writing to PredefinedPattern.pb.h and PredefinedPattern.pb.c
+Writing to ModifiedPattern.pb.h and ModifiedPattern.pb.c
+Writing to BatteryMonitorSettings.pb.h and BatteryMonitorSettings.pb.c
+Writing to Diagnostics.pb.h and Diagnostics.pb.c
+-- compiling .proto files
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/src
+Scanning dependencies of target nanopb
+[  3%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_common.c.o
+[  3%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_decode.c.o
+[  4%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/var/lib/jenkins/workspace/TacOS-multibranch2_development/proto_files/nanopb-0.3.7-macosx-x86/pb_encode.c.o
+[  4%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/messageTypes.pb.c.o
+[  5%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Pattern.pb.c.o
+[  5%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Modifier.pb.c.o
+[  6%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/ModifiedPattern.pb.c.o
+[  7%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Action.pb.c.o
+[  7%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BodyCoordinate.pb.c.o
+[  8%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BodyPart.pb.c.o
+[  8%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SystemStatus.pb.c.o
+[  9%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SystemSettings.pb.c.o
+[  9%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Location.pb.c.o
+[ 10%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/GNSSLocation.pb.c.o
+[ 10%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Time.pb.c.o
+[ 11%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Accuracy.pb.c.o
+[ 12%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/SensorCompass.pb.c.o
+[ 12%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/TacApp.pb.c.o
+[ 13%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/HomingAppLocation.pb.c.o
+[ 13%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/HomingAppHeartBeat.pb.c.o
+[ 14%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/NavigationOptions.pb.c.o
+[ 14%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Route.pb.c.o
+[ 14%] Building CXX object lib/gmock-1.7.0/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 15%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Waypoint.pb.c.o
+[ 15%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/NavigationAppSettings.pb.c.o
+[ 16%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/FileHandler.pb.c.o
+[ 17%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/TactileFeedbackOptions.pb.c.o
+[ 17%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BatteryCharacteristics.pb.c.o
+[ 18%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/BatteryMonitorSettings.pb.c.o
+[ 18%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceConfiguration.pb.c.o
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceConstellation.pb.c.o
+[ 19%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/DeviceSetting.pb.c.o
+[ 20%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Bluetooth.pb.c.o
+[ 20%] Building C object lib/nanopb/CMakeFiles/nanopb.dir/proto_files/gen/Diagnostics.pb.c.o
+[ 21%] Linking C static library ../../arc/libnanopb.a
+[ 21%] Built target nanopb
+Scanning dependencies of target gmock_main
+[ 21%] Building CXX object lib/gmock-1.7.0/CMakeFiles/gmock_main.dir/gtest/src/gtest-all.cc.o
+[ 22%] Linking CXX static library ../../arc/libgmock.a
+[ 22%] Built target gmock
+Scanning dependencies of target gtest
+[ 22%] Building CXX object lib/gmock-1.7.0/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[ 23%] Building CXX object lib/gmock-1.7.0/CMakeFiles/gmock_main.dir/src/gmock-all.cc.o
+[ 23%] Building CXX object lib/gmock-1.7.0/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 24%] Linking CXX static library ../../../arc/libgtest.a
+[ 24%] Built target gtest
+[ 24%] Generate device configuration binary
+Scanning dependencies of target motosense_lib
+[ 25%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/AbstractApp.cpp.o
+[ 26%] Linking CXX static library ../../arc/libgmock_main.a
+[ 26%] Built target gmock_main
+[ 26%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/AppManager.cpp.o
+[ 27%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/DiagnosticsApp.cpp.o
+[ 27%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/apps/SmartShirtApp.cpp.o
+[ 28%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/broker/Broker.cpp.o
+Scanning dependencies of target gtest_main
+[ 29%] Building CXX object lib/gmock-1.7.0/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 30%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/DeviceConfigurator.cpp.o
+[ 30%] Linking CXX static library ../../../arc/libgtest_main.a
+[ 30%] Built target gtest_main
+[ 30%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/GlobalHardwareConfiguration.cpp.o
+[ 31%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/configurations/hardwareConfiguration.cpp.o
+[ 31%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/ProviderInformation.cpp.o
+[ 32%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/BlueToothManager.cpp.o
+[ 32%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/littleEndian.cpp.o
+[ 33%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/numberUtil.cpp.o
+[ 33%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/bodycoordinate/BodyCoordinateLocation.cpp.o
+[ 34%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/bodycoordinate/Constellation.cpp.o
+[ 35%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/PatternAction.cpp.o
+[ 35%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/Pattern.cpp.o
+[ 36%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/ModifiedPattern.cpp.o
+[ 36%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/core/pattern/PatternBuilder.cpp.o
+[ 37%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/Led.cpp.o
+[ 37%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/Tactor.cpp.o
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/EliTactor.cpp.o
+[ 38%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/DRV2604Tactor.cpp.o
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/DRV2624Tactor.cpp.o
+[ 39%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BatteryMonitor.cpp.o
+[ 40%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BQ27426BatMon.cpp.o
+[ 41%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/STM6601OnOffCont.cpp.o
+[ 41%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/M0OnOffCont.cpp.o
+[ 42%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/spi/StretchSense.cpp.o
+[ 42%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/MMA8452Q.cpp.o
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/AHRS.cpp.o
+[ 43%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/SPIDevice.cpp.o
+[ 44%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BlueToothModule.cpp.o
+[ 44%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/devices/BlueToothDevice.cpp.o
+[ 45%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/ActionMessage.cpp.o
+[ 46%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/IMessage.cpp.o
+[ 46%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/LocationMessage.cpp.o
+[ 47%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/PatternMessage.cpp.o
+[ 47%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/ProtocolMessage.cpp.o
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/SensorMessage.cpp.o
+[ 48%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/messages/SystemMessage.cpp.o
+[ 49%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/navigation/NavigationAlgorithm.cpp.o
+[ 49%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/Streams.cpp.o
+[ 50%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/FieldCallbacks.cpp.o
+[ 51%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/NanoPBExtension/ProtoMapping.cpp.o
+[ 51%] Building C object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/SPI/SPIWrapper.c.o
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtoMessage.cpp.o
+[ 52%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/GenericProtoMessage.cpp.o
+[ 53%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtoVersionManagement.cpp.o
+[ 53%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolWriter.cpp.o
+[ 54%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolReader.cpp.o
+[ 54%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolHeader.cpp.o
+[ 55%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/protocol/ProtocolHandler.cpp.o
+[ 56%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/AbstractServiceProvider.cpp.o
+[ 56%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/AbstractServiceSubscriber.cpp.o
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/InitializationMarshall.cpp.o
+[ 57%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/core/BaseConnector.cpp.o
+[ 58%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/accelerometer/AccelerometerService.cpp.o
+[ 58%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/actionplayer/ActionPlayerService.cpp.o
+[ 59%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/actionplayer/compfreq.cpp.o
+[ 59%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/AbstractBodyCoordinateService.cpp.o
+[ 60%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/LineBodyCoordinateService.cpp.o
+[ 60%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/PointBodyCoordinateService.cpp.o
+[ 61%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/bodycoordinate/TriangleBodyCoordinateService.cpp.o
+[ 62%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/ahrs/AHRSService.cpp.o
+[ 62%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/location/LocationService.cpp.o
+[ 63%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/location/PositionVelocityTimeData.cpp.o
+[ 63%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/patternplayer/PatternQ.cpp.o
+[ 64%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/patternplayer/PatternQController.cpp.o
+[ 64%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/PowerManagement/PowerManagement.cpp.o
+[ 65%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/protocol/ProtocolService.cpp.o
+[ 65%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/system/SystemService.cpp.o
+[ 66%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/FileManager.cpp.o
+[ 67%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/FileService.cpp.o
+[ 67%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/ArrayFile.cpp.o
+[ 68%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/fileManager/GuardedFile.cpp.o
+[ 68%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/button/ButtonService.cpp.o
+[ 69%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/ByteArray.cpp.o
+[ 69%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/Gatt.cpp.o
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/BatteryService.cpp.o
+[ 70%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/HIDService.cpp.o
+[ 71%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/GattClients/HeartRateGattClient.cpp.o
+[ 72%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/GattClients/CycleCadenceGattClient.cpp.o
+[ 72%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/services/Btle/BtleManager.cpp.o
+[ 73%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/AbstractRTOSTask.cpp.o
+[ 73%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/IntervalUpdateTask.cpp.o
+[ 74%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/MonitorQTask.cpp.o
+[ 74%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/tasks/PatternTimerTask.cpp.o
+[ 75%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Coordinates.cpp.o
+[ 75%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/HalfOpenInterval.cpp.o
+[ 76%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Vector2.cpp.o
+[ 77%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/utils/Vector3.cpp.o
+[ 77%] Building CXX object src/motosense_lib/CMakeFiles/motosense_lib.dir/actionplayer/tactorpwmtable.cpp.o
+[ 78%] Linking CXX static library ../../arc/libmotosense_lib.a
+[ 79%] Built target motosense_lib
+Scanning dependencies of target runtests
+[ 80%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/semphr.cpp.o
+[ 80%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/queue.cpp.o
+[ 81%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/timers.cpp.o
+[ 81%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/task.cpp.o
+[ 81%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/event_groups.cpp.o
+[ 82%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/trace.cpp.o
+[ 82%] Building CXX object src/tests/CMakeFiles/runtests.dir/RTOSMock/osa_timing.cpp.o
+[ 83%] Building C object src/tests/CMakeFiles/runtests.dir/cmsisMock/cmsisMock.c.o
+[ 83%] Building CXX object src/tests/CMakeFiles/runtests.dir/platformMock/I2CDeviceMock.cpp.o
+[ 84%] Building CXX object src/tests/CMakeFiles/runtests.dir/platformMock/ServiceProvider.cpp.o
+[ 85%] Building CXX object src/tests/CMakeFiles/runtests.dir/platformMock/ServiceSubscriber.cpp.o
+[ 85%] Building CXX object src/tests/CMakeFiles/runtests.dir/platformMock/Semaphore.cpp.o
+[ 86%] Building CXX object src/tests/CMakeFiles/runtests.dir/misc/TactorMock.cpp.o
+[ 86%] Building CXX object src/tests/CMakeFiles/runtests.dir/misc/ExampleMessage.cpp.o
+[ 87%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/AbstractRTOSTask_test.cpp.o
+[ 87%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ActionPlayer_test.cpp.o
+[ 88%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/BodyCoordinate_test.cpp.o
+[ 88%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ButtonService_test.cpp.o
+[ 89%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/Broker_test.cpp.o
+[ 90%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/LineBodyCoordinateService_test.cpp.o
+[ 90%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/NavigationAlgorithm_test.cpp.o
+[ 91%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/Math_test.cpp.o
+[ 91%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/numberUtil_test.cpp.o
+[ 92%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/PatternQController_test.cpp.o
+[ 92%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/PointBodyCoordinateService_test.cpp.o
+In file included from /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/../include/test.h:13,
+                 from /var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/PatternQController_test.cpp:17:
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/gmock-1.7.0/gtest/include/gtest/gtest.h: In instantiation of 'testing::AssertionResult testing::internal::CmpHelperEQ(const char*, const char*, const T1&, const T2&) [with T1 = int; T2 = long unsigned int]':
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/gmock-1.7.0/gtest/include/gtest/gtest.h:1524:23:   required from 'static testing::AssertionResult testing::internal::EqHelper<true>::Compare(const char*, const char*, const T1&, const T2&, typename testing::internal::EnableIf<(! testing::internal::is_pointer<T2>::value)>::type*) [with T1 = int; T2 = long unsigned int; typename testing::internal::EnableIf<(! testing::internal::is_pointer<T2>::value)>::type = void]'
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/src/tests/platform/PatternQController_test.cpp:77:5:   required from here
+/var/lib/jenkins/workspace/TacOS-multibranch2_development/TacOS/lib/gmock-1.7.0/gtest/include/gtest/gtest.h:1448:16: warning: comparison of integer expressions of different signedness: 'const int' and 'const long unsigned int' [-Wsign-compare]
+ 1448 |   if (expected == actual) {
+      |       ~~~~~~~~~^~~~~~~~~
+[ 93%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/protocolBuffer_test.cpp.o
+[ 93%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ProtocolHandler_test.cpp.o
+[ 94%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ProtocolWriterReader_test.cpp.o
+[ 95%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ProviderInformation_test.cpp.o
+[ 95%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ServiceProvider_test.cpp.o
+[ 96%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/ServiceSubscriber_test.cpp.o
+[ 96%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/TriangleBodyCoordinateService_test.cpp.o
+[ 97%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/WaypointLine_test.cpp.o
+[ 97%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/GuardedFile_test.cpp.o
+[ 98%] Building CXX object src/tests/CMakeFiles/runtests.dir/platform/Corner_test.cpp.o
+[ 98%] Building C object src/tests/CMakeFiles/runtests.dir/__/platform/apps/balancebelt/corner.c.o
+[100%] Linking CXX executable ../../bin/runtests
+removing gcda files..
+[100%] Built target runtests
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] sh
++ arm-none-eabi-size build/local/bin/*.hex
++ tr -d 
+
++ cut -f 2
++ grep elf.hex
+arm-none-eabi-size: 'build/local/bin/*.hex': No such file
+[Pipeline] sh
++ echo -n ,
+[Pipeline] sh
++ tail -10
++ arm-none-eabi-nm -l --demangle --print-size --size-sort --radix=d build/local/bin/*.elf
+arm-none-eabi-nm: 'build/local/bin/*.elf': No such file
+[Pipeline] sh
++ echo
+[Pipeline] sh
++ cat hex-sizes.csv
+sciencesuit,balancebelt,local,
+ 440256, 332160,,
+[Pipeline] plot
+WARNING: Unknown parameter(s) found for class type 'hudson.plugins.plot.PlotBuilder': logaritmic,numbuilds
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] recordIssues
+[CMake] Sleeping for 5 seconds due to JENKINS-32191...
+[CMake] Parsing console log (workspace: '/var/lib/jenkins/workspace/TacOS-multibranch2_development')
+[CMake] Attaching ResultAction with ID 'cmake' to run 'TacOS-multibranch2/development #123'.
+[CMake] Using reference build 'TacOS-multibranch2/development #122' to compute new, fixed, and outstanding issues
+[CMake] Issues delta (vs. reference build): outstanding: 0, new: 0, fixed: 0
+[CMake] No quality gates have been set - skipping
+[CMake] Health report is disabled - skipping
+[CMake] Created analysis result for 0 issues (found 0 new issues, fixed 0 issues)
+[GNU C Compiler (gcc)] Sleeping for 5 seconds due to JENKINS-32191...
+[GNU C Compiler (gcc)] Parsing console log (workspace: '/var/lib/jenkins/workspace/TacOS-multibranch2_development')
+[GNU C Compiler (gcc)] Post processing issues on 'Master' with source code encoding 'ISO-8859-1'
+[GNU C Compiler (gcc)] Resolving absolute file names for all issues in source directories '[/var/lib/jenkins/workspace/TacOS-multibranch2_development]'
+[GNU C Compiler (gcc)] -> 11 resolved, 0 unresolved, 1 already resolved
+[GNU C Compiler (gcc)] Resolving module names from module definitions (build.xml, pom.xml, or Manifest.mf files)
+[GNU C Compiler (gcc)] -> resolved module names for 14 issues
+[GNU C Compiler (gcc)] Resolving package names (or namespaces) by parsing the affected files
+[GNU C Compiler (gcc)] -> resolved package names of 12 affected files
+[GNU C Compiler (gcc)] No filter has been set, publishing all 14 issues
+[GNU C Compiler (gcc)] Creating fingerprints for all affected code blocks to track issues over different builds
+[GNU C Compiler (gcc)] -> created fingerprints for 14 issues
+[GNU C Compiler (gcc)] Copying affected files to Jenkins' build folder '/var/lib/jenkins/jobs/TacOS-multibranch2/branches/development/builds/123/files-with-issues'
+[GNU C Compiler (gcc)] -> 12 copied, 0 not in workspace, 0 not-found, 0 with I/O error
+[GNU C Compiler (gcc)] Attaching ResultAction with ID 'gcc' to run 'TacOS-multibranch2/development #123'.
+[GNU C Compiler (gcc)] Using reference build 'TacOS-multibranch2/development #122' to compute new, fixed, and outstanding issues
+[GNU C Compiler (gcc)] Issues delta (vs. reference build): outstanding: 14, new: 0, fixed: 0
+[GNU C Compiler (gcc)] No quality gates have been set - skipping
+[GNU C Compiler (gcc)] Health report is disabled - skipping
+[GNU C Compiler (gcc)] Created analysis result for 14 issues (found 0 new issues, fixed 0 issues)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] timeout
+Timeout set to expire in 2 min 0 sec
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] fileExists
+[Pipeline] echo
+Testing...
+[Pipeline] sh
++ ./build/local/bin/runtests --gtest_output=xml:build/local/bin/runtests.xml
+Running main() from gtest_main.cc
+[==========] Running 126 tests from 20 test cases.
+[----------] Global test environment set-up.
+[----------] 5 tests from ActionPlayer_test
+[ RUN      ] ActionPlayer_test.compMinPwmForTactorToTurnOn
+[       OK ] ActionPlayer_test.compMinPwmForTactorToTurnOn (0 ms)
+[ RUN      ] ActionPlayer_test.FarDistance
+[       OK ] ActionPlayer_test.FarDistance (0 ms)
+[ RUN      ] ActionPlayer_test.RightColIncreases
+[       OK ] ActionPlayer_test.RightColIncreases (0 ms)
+[ RUN      ] ActionPlayer_test.compFreqMin
+[       OK ] ActionPlayer_test.compFreqMin (0 ms)
+[ RUN      ] ActionPlayer_test.compFreqMax
+[       OK ] ActionPlayer_test.compFreqMax (0 ms)
+[----------] 5 tests from ActionPlayer_test (0 ms total)
+
+[----------] 4 tests from BodyCoordinateServiceTest
+[ RUN      ] BodyCoordinateServiceTest.tactorListSize
+[       OK ] BodyCoordinateServiceTest.tactorListSize (0 ms)
+[ RUN      ] BodyCoordinateServiceTest.tactorHWListSize
+[       OK ] BodyCoordinateServiceTest.tactorHWListSize (0 ms)
+[ RUN      ] BodyCoordinateServiceTest.testUnknownHardwareAddress
+[       OK ] BodyCoordinateServiceTest.testUnknownHardwareAddress (2 ms)
+[ RUN      ] BodyCoordinateServiceTest.incorrectConfigAddress
+[       OK ] BodyCoordinateServiceTest.incorrectConfigAddress (0 ms)
+[----------] 4 tests from BodyCoordinateServiceTest (2 ms total)
+
+[----------] 6 tests from ButtonServiceTest
+[ RUN      ] ButtonServiceTest.onDown
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mDestroying a task
+[1;34mstopTask: ButtonTask[0m
+[       OK ] ButtonServiceTest.onDown (0 ms)
+[ RUN      ] ButtonServiceTest.onUp
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: up#0[0m
+[0mDestroying a task
+[1;34mstopTask: ButtonTask[0m
+[       OK ] ButtonServiceTest.onUp (0 ms)
+[ RUN      ] ButtonServiceTest.LongPress
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mDestroying a task
+[1;34mstopTask: ButtonTask[0m
+[       OK ] ButtonServiceTest.LongPress (0 ms)
+[ RUN      ] ButtonServiceTest.Click
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: up#0[0m
+[0mDestroying a task
+[1;34mstopTask: ButtonTask[0m
+[       OK ] ButtonServiceTest.Click (0 ms)
+[ RUN      ] ButtonServiceTest.Cancel
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: up#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mDestroying a task
+[1;34mstopTask: ButtonTask[0m
+[       OK ] ButtonServiceTest.Cancel (0 ms)
+[ RUN      ] ButtonServiceTest.DoubleClick
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: up#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: down#0[0m
+[0mprocess buttonAction.
+[1;34mbutact: up#0[0m
+[0mDestroying a task
+[1;34mstopTask: ButtonTask[0m
+[       OK ] ButtonServiceTest.DoubleClick (0 ms)
+[----------] 6 tests from ButtonServiceTest (0 ms total)
+
+[----------] 4 tests from Broker_test
+[ RUN      ] Broker_test.testRegisterServiceProvider
+[       OK ] Broker_test.testRegisterServiceProvider (0 ms)
+[ RUN      ] Broker_test.testUnregisterServiceProvider
+[       OK ] Broker_test.testUnregisterServiceProvider (0 ms)
+[ RUN      ] Broker_test.testRegisterForEventAtUnavailableServiceProvider
+[       OK ] Broker_test.testRegisterForEventAtUnavailableServiceProvider (0 ms)
+[ RUN      ] Broker_test.testRegisterForEvent
+[       OK ] Broker_test.testRegisterForEvent (0 ms)
+[----------] 4 tests from Broker_test (0 ms total)
+
+[----------] 8 tests from LineBodyCoordinateServiceTest
+[ RUN      ] LineBodyCoordinateServiceTest.testHWLocationsHeightInterpolate
+[       OK ] LineBodyCoordinateServiceTest.testHWLocationsHeightInterpolate (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testHWLocationsHeightNearest
+[       OK ] LineBodyCoordinateServiceTest.testHWLocationsHeightNearest (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testHWLocationsCircumferenceInterpolate
+[       OK ] LineBodyCoordinateServiceTest.testHWLocationsCircumferenceInterpolate (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testHWLocationsCircumferenceNearest
+[       OK ] LineBodyCoordinateServiceTest.testHWLocationsCircumferenceNearest (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testCircular
+[       OK ] LineBodyCoordinateServiceTest.testCircular (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testInvalidConfiguration
+[       OK ] LineBodyCoordinateServiceTest.testInvalidConfiguration (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testOutsideLineHeight
+[       OK ] LineBodyCoordinateServiceTest.testOutsideLineHeight (0 ms)
+[ RUN      ] LineBodyCoordinateServiceTest.testOutsideLineCircumference
+[       OK ] LineBodyCoordinateServiceTest.testOutsideLineCircumference (0 ms)
+[----------] 8 tests from LineBodyCoordinateServiceTest (0 ms total)
+
+[----------] 6 tests from NavigationAlgorithm_test
+[ RUN      ] NavigationAlgorithm_test.test_calc_distance
+[       OK ] NavigationAlgorithm_test.test_calc_distance (2 ms)
+[ RUN      ] NavigationAlgorithm_test.test_wp_orientation
+[       OK ] NavigationAlgorithm_test.test_wp_orientation (0 ms)
+[ RUN      ] NavigationAlgorithm_test.test_fb_interval
+[       OK ] NavigationAlgorithm_test.test_fb_interval (0 ms)
+[ RUN      ] NavigationAlgorithm_test.test_nav_direction
+No actual test performed, as this is a print-only test and printing is turned off.
+[       OK ] NavigationAlgorithm_test.test_nav_direction (0 ms)
+[ RUN      ] NavigationAlgorithm_test.test_dir_angle_range
+[       OK ] NavigationAlgorithm_test.test_dir_angle_range (0 ms)
+[ RUN      ] NavigationAlgorithm_test.test_tactor_coord_mapping
+[       OK ] NavigationAlgorithm_test.test_tactor_coord_mapping (0 ms)
+[----------] 6 tests from NavigationAlgorithm_test (2 ms total)
+
+[----------] 6 tests from MathTest
+[ RUN      ] MathTest.LerpMethodSpecialCases
+[       OK ] MathTest.LerpMethodSpecialCases (0 ms)
+[ RUN      ] MathTest.LerpMethodGeneralCases
+[       OK ] MathTest.LerpMethodGeneralCases (4 ms)
+[ RUN      ] MathTest.ModMethodLowerBound
+[       OK ] MathTest.ModMethodLowerBound (0 ms)
+[ RUN      ] MathTest.ModMethodUpperBound
+[       OK ] MathTest.ModMethodUpperBound (0 ms)
+[ RUN      ] MathTest.WrapMethodFullTest
+[       OK ] MathTest.WrapMethodFullTest (5 ms)
+[ RUN      ] MathTest.WrapMethodBasicTest
+[       OK ] MathTest.WrapMethodBasicTest (0 ms)
+[----------] 6 tests from MathTest (9 ms total)
+
+[----------] 3 tests from NumberUtilTest
+[ RUN      ] NumberUtilTest.testUnsignedIntToSigned
+[       OK ] NumberUtilTest.testUnsignedIntToSigned (0 ms)
+[ RUN      ] NumberUtilTest.testSignedIntToDouble
+[       OK ] NumberUtilTest.testSignedIntToDouble (0 ms)
+[ RUN      ] NumberUtilTest.testSignedIntToDoubleWithScale
+[       OK ] NumberUtilTest.testSignedIntToDoubleWithScale (0 ms)
+[----------] 3 tests from NumberUtilTest (0 ms total)
+
+[----------] 15 tests from PatternQController_test
+[ RUN      ] PatternQController_test.testAddingPatternQ
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testAddingPatternQ (1 ms)
+[ RUN      ] PatternQController_test.testIncrementingPatternQs
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testIncrementingPatternQs (0 ms)
+[ RUN      ] PatternQController_test.testPopActionFromPatternQ
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testPopActionFromPatternQ (0 ms)
+[ RUN      ] PatternQController_test.testDetermineDispatchGroupSize
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testDetermineDispatchGroupSize (0 ms)
+[ RUN      ] PatternQController_test.testPopMultiActionFromSamePattern
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testPopMultiActionFromSamePattern (0 ms)
+[ RUN      ] PatternQController_test.testCurrentPriorityUpdateNow
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testCurrentPriorityUpdateNow (0 ms)
+[ RUN      ] PatternQController_test.testCurrentPriorityUpdateWhenever
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testCurrentPriorityUpdateWhenever (0 ms)
+[ RUN      ] PatternQController_test.testCurrentPriorityUpdateWhatever
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testCurrentPriorityUpdateWhatever (0 ms)
+[ RUN      ] PatternQController_test.testPatternDuration
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testPatternDuration (0 ms)
+[ RUN      ] PatternQController_test.testDiscardAction
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testDiscardAction (0 ms)
+[ RUN      ] PatternQController_test.testWaitAction
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testWaitAction (0 ms)
+[ RUN      ] PatternQController_test.testDelayAction
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testDelayAction (0 ms)
+[ RUN      ] PatternQController_test.test2WaitAction
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.test2WaitAction (0 ms)
+[ RUN      ] PatternQController_test.testWaitNowAction
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testWaitNowAction (0 ms)
+[ RUN      ] PatternQController_test.testFinishedPattern
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_PatternQMQ[0m
+[       OK ] PatternQController_test.testFinishedPattern (0 ms)
+[----------] 15 tests from PatternQController_test (1 ms total)
+
+[----------] 2 tests from PointBodyCoordinateServiceTest
+[ RUN      ] PointBodyCoordinateServiceTest.testAddDevice
+[       OK ] PointBodyCoordinateServiceTest.testAddDevice (0 ms)
+[ RUN      ] PointBodyCoordinateServiceTest.testGetHWLocations
+[       OK ] PointBodyCoordinateServiceTest.testGetHWLocations (0 ms)
+[----------] 2 tests from PointBodyCoordinateServiceTest (0 ms total)
+
+[----------] 1 test from protocolBuffer_test
+[ RUN      ] protocolBuffer_test.test_simple_encode_decode
+[       OK ] protocolBuffer_test.test_simple_encode_decode (0 ms)
+[----------] 1 test from protocolBuffer_test (0 ms total)
+
+[----------] 1 test from ProtocolHandlerTest
+[ RUN      ] ProtocolHandlerTest.testExampleMessage
+[0mheader type: 22
+[       OK ] ProtocolHandlerTest.testExampleMessage (0 ms)
+[----------] 1 test from ProtocolHandlerTest (0 ms total)
+
+[----------] 1 test from ProviderInformation_test
+[ RUN      ] ProviderInformation_test.testComparator
+[       OK ] ProviderInformation_test.testComparator (0 ms)
+[----------] 1 test from ProviderInformation_test (0 ms total)
+
+[----------] 2 tests from ServiceProvider_test
+[ RUN      ] ServiceProvider_test.testRegisterForEvent
+using Mock xTaskCreate, which does not create tasks!
+[0mregister subscriber (TestSub) <--- (TestProvider) at  1/30 ms
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: q_TestSub[0m
+[0mDestroying a task
+[1;34mstopTask: iu_TestProvider[0m
+[       OK ] ServiceProvider_test.testRegisterForEvent (0 ms)
+[ RUN      ] ServiceProvider_test.testUnregisterForEvent
+using Mock xTaskCreate, which does not create tasks!
+[0mregister subscriber (TestSub) <--- (TestProvider) at  1/30 ms
+using Mock xTaskCreate, which does not create tasks!
+[0mDestroying a task
+[1;34mstopTask: iu_TestProvider[0m
+[0mDestroying a task
+[1;34mstopTask: q_TestSub[0m
+[       OK ] ServiceProvider_test.testUnregisterForEvent (0 ms)
+[----------] 2 tests from ServiceProvider_test (0 ms total)
+
+[----------] 2 tests from ServiceSubscriber_test
+[ RUN      ] ServiceSubscriber_test.testRegisterForEvent
+using Mock xTaskCreate, which does not create tasks!
+[0mregister subscriber (TestSub) <--- (TestProvider) triggered
+[0mDestroying a task
+[1;34mstopTask: q_TestSub[0m
+[       OK ] ServiceSubscriber_test.testRegisterForEvent (0 ms)
+[ RUN      ] ServiceSubscriber_test.testUnregisterForEvent
+using Mock xTaskCreate, which does not create tasks!
+[0mregister subscriber (TestSub) <--- (TestProvider) triggered
+[0mDestroying a task
+[1;34mstopTask: q_TestSub[0m
+[       OK ] ServiceSubscriber_test.testUnregisterForEvent (0 ms)
+[----------] 2 tests from ServiceSubscriber_test (0 ms total)
+
+[----------] 14 tests from TriangleBodyCoordinateServiceTest
+[ RUN      ] TriangleBodyCoordinateServiceTest.incorrectTriangle2
+[       OK ] TriangleBodyCoordinateServiceTest.incorrectTriangle2 (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.incorrectTriangle4
+[       OK ] TriangleBodyCoordinateServiceTest.incorrectTriangle4 (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.correctTriangleTest1
+[       OK ] TriangleBodyCoordinateServiceTest.correctTriangleTest1 (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.outsideOfTriangleTest
+[       OK ] TriangleBodyCoordinateServiceTest.outsideOfTriangleTest (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.nonExistingBodyPartTest
+[       OK ] TriangleBodyCoordinateServiceTest.nonExistingBodyPartTest (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.nearestTactor
+[       OK ] TriangleBodyCoordinateServiceTest.nearestTactor (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.nonExistingBodyPartTestNearest
+[       OK ] TriangleBodyCoordinateServiceTest.nonExistingBodyPartTestNearest (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.checkHWaddressesAndDistance
+[       OK ] TriangleBodyCoordinateServiceTest.checkHWaddressesAndDistance (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.checkDistanceNearest
+[       OK ] TriangleBodyCoordinateServiceTest.checkDistanceNearest (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.testCircularBegin
+[       OK ] TriangleBodyCoordinateServiceTest.testCircularBegin (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.testCircularEnd
+[       OK ] TriangleBodyCoordinateServiceTest.testCircularEnd (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.testBaryCentric1
+[       OK ] TriangleBodyCoordinateServiceTest.testBaryCentric1 (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.testBaryCentric2
+[       OK ] TriangleBodyCoordinateServiceTest.testBaryCentric2 (0 ms)
+[ RUN      ] TriangleBodyCoordinateServiceTest.testBaryCentric3
+[       OK ] TriangleBodyCoordinateServiceTest.testBaryCentric3 (0 ms)
+[----------] 14 tests from TriangleBodyCoordinateServiceTest (1 ms total)
+
+[----------] 3 tests from WaypointLine_test
+[ RUN      ] WaypointLine_test.test_wayline_projection
+[       OK ] WaypointLine_test.test_wayline_projection (0 ms)
+[ RUN      ] WaypointLine_test.test_wp_and_wl_angles
+[       OK ] WaypointLine_test.test_wp_and_wl_angles (0 ms)
+[ RUN      ] WaypointLine_test.test_wp_wl_distance
+[       OK ] WaypointLine_test.test_wp_wl_distance (0 ms)
+[----------] 3 tests from WaypointLine_test (0 ms total)
+
+[----------] 26 tests from Corner_test
+[ RUN      ] Corner_test.testDotProduct
+[       OK ] Corner_test.testDotProduct (0 ms)
+[ RUN      ] Corner_test.testLengthZero
+[       OK ] Corner_test.testLengthZero (0 ms)
+[ RUN      ] Corner_test.testLengthOne
+[       OK ] Corner_test.testLengthOne (0 ms)
+[ RUN      ] Corner_test.testLengthNegative
+[       OK ] Corner_test.testLengthNegative (0 ms)
+[ RUN      ] Corner_test.testNorm
+[       OK ] Corner_test.testNorm (0 ms)
+[ RUN      ] Corner_test.testNormZero
+[       OK ] Corner_test.testNormZero (0 ms)
+[ RUN      ] Corner_test.testNormNegative
+[       OK ] Corner_test.testNormNegative (0 ms)
+[ RUN      ] Corner_test.testASINlessthanminus1
+[       OK ] Corner_test.testASINlessthanminus1 (0 ms)
+[ RUN      ] Corner_test.testASINminus1
+[       OK ] Corner_test.testASINminus1 (0 ms)
+[ RUN      ] Corner_test.testASINmorethan1
+[       OK ] Corner_test.testASINmorethan1 (0 ms)
+[ RUN      ] Corner_test.testASINone
+[       OK ] Corner_test.testASINone (0 ms)
+[ RUN      ] Corner_test.testASINzero
+[       OK ] Corner_test.testASINzero (0 ms)
+[ RUN      ] Corner_test.testSetNumberOfTactorsToTen
+[       OK ] Corner_test.testSetNumberOfTactorsToTen (0 ms)
+[ RUN      ] Corner_test.testSetNumberOfTactorsToOne
+[       OK ] Corner_test.testSetNumberOfTactorsToOne (0 ms)
+[ RUN      ] Corner_test.testSetNumberOfTactorsToEight
+[       OK ] Corner_test.testSetNumberOfTactorsToEight (0 ms)
+[ RUN      ] Corner_test.testSetNumberOfTactorsToSeven
+[       OK ] Corner_test.testSetNumberOfTactorsToSeven (0 ms)
+[ RUN      ] Corner_test.testSetNumberOfTactorsToTwelve
+[       OK ] Corner_test.testSetNumberOfTactorsToTwelve (0 ms)
+[ RUN      ] Corner_test.testSetNumberOfTactorsToThirteen
+[       OK ] Corner_test.testSetNumberOfTactorsToThirteen (0 ms)
+[ RUN      ] Corner_test.testInitSetsXYZ
+[       OK ] Corner_test.testInitSetsXYZ (0 ms)
+[ RUN      ] Corner_test.testCalibrateEnablesValidCallback
+[       OK ] Corner_test.testCalibrateEnablesValidCallback (0 ms)
+[ RUN      ] Corner_test.testNoCalibrateDisablesValidCallback
+[       OK ] Corner_test.testNoCalibrateDisablesValidCallback (0 ms)
+[ RUN      ] Corner_test.testInvalidCallbackIsIgnored
+[       OK ] Corner_test.testInvalidCallbackIsIgnored (0 ms)
+[ RUN      ] Corner_test.testInitCorrectsTooMuchTactors
+[       OK ] Corner_test.testInitCorrectsTooMuchTactors (0 ms)
+[ RUN      ] Corner_test.testPatientVectorStraightUp
+[       OK ] Corner_test.testPatientVectorStraightUp (0 ms)
+[ RUN      ] Corner_test.testPatientVector90DegreesX
+[       OK ] Corner_test.testPatientVector90DegreesX (0 ms)
+[ RUN      ] Corner_test.testPatientVector90DegreesY
+[       OK ] Corner_test.testPatientVector90DegreesY (0 ms)
+[----------] 26 tests from Corner_test (1 ms total)
+
+[----------] 9 tests from CornerCalibratedStraightUp
+[ RUN      ] CornerCalibratedStraightUp.testNoMovementGivesZeroCornerAndTilt
+[       OK ] CornerCalibratedStraightUp.testNoMovementGivesZeroCornerAndTilt (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.test45DegreesTiltRight
+[       OK ] CornerCalibratedStraightUp.test45DegreesTiltRight (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.test45DegreesTiltLeft
+[       OK ] CornerCalibratedStraightUp.test45DegreesTiltLeft (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.test45DegreesTiltForward
+[       OK ] CornerCalibratedStraightUp.test45DegreesTiltForward (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.test45DegreesTiltBackward
+[       OK ] CornerCalibratedStraightUp.test45DegreesTiltBackward (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.testXaxisAligned
+[       OK ] CornerCalibratedStraightUp.testXaxisAligned (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.testZaxisInverted
+[       OK ] CornerCalibratedStraightUp.testZaxisInverted (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.testYaxisInverted
+[       OK ] CornerCalibratedStraightUp.testYaxisInverted (0 ms)
+[ RUN      ] CornerCalibratedStraightUp.testXaxisInverted
+[       OK ] CornerCalibratedStraightUp.testXaxisInverted (0 ms)
+[----------] 9 tests from CornerCalibratedStraightUp (0 ms total)
+
+[----------] 8 tests from CornerCalibrated45DegreesForward
+[ RUN      ] CornerCalibrated45DegreesForward.testNoTilt
+[       OK ] CornerCalibrated45DegreesForward.testNoTilt (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test45DegreesTiltForward
+[       OK ] CornerCalibrated45DegreesForward.test45DegreesTiltForward (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test45DegreesTiltBackward
+[       OK ] CornerCalibrated45DegreesForward.test45DegreesTiltBackward (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test45DegreesTiltLeft
+[       OK ] CornerCalibrated45DegreesForward.test45DegreesTiltLeft (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test45DegreesTiltRight
+[       OK ] CornerCalibrated45DegreesForward.test45DegreesTiltRight (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test90DegreesTiltRight
+[       OK ] CornerCalibrated45DegreesForward.test90DegreesTiltRight (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test90DegreesTiltBackwards
+[       OK ] CornerCalibrated45DegreesForward.test90DegreesTiltBackwards (0 ms)
+[ RUN      ] CornerCalibrated45DegreesForward.test90DegreesTiltLeft
+[       OK ] CornerCalibrated45DegreesForward.test90DegreesTiltLeft (0 ms)
+[----------] 8 tests from CornerCalibrated45DegreesForward (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 126 tests from 20 test cases ran. (16 ms total)
+[  PASSED  ] 126 tests.
+
+  YOU HAVE 2 DISABLED TESTS
+
+[Pipeline] sh
++ gcovr --xml-pretty -f . -o build/local/bin/coverage.xml
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // timeout
+Post stage
+[Pipeline] junit
+Recording test results
+[Pipeline] step
+[Cobertura] Publishing Cobertura coverage report...
+
+[Cobertura] Publishing Cobertura coverage results...
+
+[Cobertura] Cobertura coverage report found.
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 75b7b5fefb6729431c45ebf230ac325ba06e6bb5944da55d4a1e625d3f1009d5
+$ docker rm -f 75b7b5fefb6729431c45ebf230ac325ba06e6bb5944da55d4a1e625d3f1009d5
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
