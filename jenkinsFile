@@ -41,7 +41,8 @@ pipeline {
         }
         stage('Test') {
             steps {
-              sh 'echo dummy step'
+              sh 'touch runtests.xml'
+              sh 'touch coverage.xml'
             }
             post {
               always {
