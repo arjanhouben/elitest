@@ -30,5 +30,3 @@ RUN pip install lizard
 RUN apt-get install -y clang
 
 WORKDIR /TacOS/TacOS
-# optional :: Make a project when running the docker container.
-#CMD make project=sciencesuit
