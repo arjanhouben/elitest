@@ -7,12 +7,13 @@ name: CI
 on: [ push, pull_request ]
 
 jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: build
-        uses: actions/docker
-        image: 'Dockerfile'
-        entrypoint: 'build.sh'
+    docker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: build
+              uses: addnab/docker-run-action@v1
+              with:
+                  image: 'Dockerfile'
+                  run: 'build.sh'
