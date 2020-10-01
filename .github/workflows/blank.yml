@@ -13,10 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: build
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          builder: ${{ steps.buildx.outputs.name }}
-          context: ./app
-          file: Dockerfile
-          target: prod
+        using: 'docker'
+        image: 'Dockerfile'
+        entrypoint: 'build.sh'
