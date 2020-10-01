@@ -1,0 +1,65 @@
+#!/usr/bin/env groovy
+//build list when no env.PROJECT is defined. Build the complete list. 
+//IMPORTANT: local has to be last, to run tests.
+def build_list = ['sciencesuit', 'balancebelt', 'local']
+//if an env.PROJECT is defined, use only that to generate a build.
+if(env.PROJECT && "${env.PROJECT}" != 'all'){
+    build_list = ["${env.PROJECT}"]
+}
+
+pipeline {
+    agent {
+      dockerfile {
+        filename "Dockerfile"
+        label "docker"
+      }
+    }     
+    options {
+      buildDiscarder(logRotator(numToKeepStr: '7', artifactNumToKeepStr: '30'))
+    }
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    sh 'cat console.log'
+                    plot csvFileName: "hex-sizes-persistent.csv",
+                         csvSeries: [[ file: "hex-sizes.csv", displayTableFlag: false, inclusionFlag: 'OFF', url: '' ]],
+                         group: "Plot group",
+                         title: "Binary sizes",
+                         style: "line",
+                         exclZero: false,
+                         keepRecords: false,
+                         logaritmic: false,
+                         numbuilds: '',
+                         useDescr: true,
+                         yaxis: '',
+                         yaxisMaximum: '',
+                         yaxisMinimum: ''
+                }
+              recordIssues tools: [cmake(), gcc()]
+           }
+        }
+        stage('Test') {
+            steps {
+              sh 'touch runtests.xml'
+              sh 'touch coverage.xml'
+            }
+            post {
+              always {
+                junit allowEmptyResults: true, testResults: 'runtests.xml'
+                cobertura failNoReports: false, coberturaReportFile: 'coverage.xml'
+              }
+            }
+        }
+    }
+    post {
+        failure {
+          emailext (
+              subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+              body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+              recipientProviders: [[$class: 'CulpritsRecipientProvider'],[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+    }
+}
