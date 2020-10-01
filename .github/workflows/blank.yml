@@ -13,7 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: build
-        runs:
-          uses: into-docker/build-action@v1
-          image: 'Dockerfile'
-          entrypoint: 'build.sh'
+        uses: into-docker/build-action@v1
+        image: 'Dockerfile'
+        entrypoint: 'build.sh'
