@@ -28,5 +28,3 @@ RUN apt-get install -y srecord
 RUN pip install lizard
 
 RUN apt-get install -y clang
-
-WORKDIR /TacOS/TacOS
