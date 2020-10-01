@@ -13,4 +13,4 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
             - name: build
-              uses: arjanhouben/elitest_docker@1
+              uses: arjanhouben/elitest_docker@2
