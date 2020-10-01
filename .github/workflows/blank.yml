@@ -6,7 +6,14 @@ name: CI
 # events but only for the master branch
 on: [ push, pull_request ]
 
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  entrypoint: 'build.sh'
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: build
+        runs:
+          using: 'docker'
+          image: 'Dockerfile'
+          entrypoint: 'build.sh'
